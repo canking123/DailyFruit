@@ -20,4 +20,3 @@ class Developer(models.Model):
     class Meta:
         db_table = 'developer'
 
-
