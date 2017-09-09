@@ -9,9 +9,6 @@ class Development(models.Model):
     class Meta:
         db_table = 'development'
 
-    def __str__(self):
-        return self.btitle
-
 
 class Developer(models.Model):
     name = models.CharField(max_length=10)
