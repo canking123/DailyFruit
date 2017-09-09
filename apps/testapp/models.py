@@ -6,8 +6,18 @@ from django.db import models
 class Development(models.Model):
     nick_name = models.CharField(max_length=10)
 
-    class Meta:# 元信息类
-        db_table = 'development'# 指定表的名称
+    class Meta:
+        db_table = 'development'
 
     def __str__(self):
         return self.btitle
+
+
+class Developer(models.Model):
+    name = models.CharField(max_length=10)
+    age = models.IntegerField(default=10)
+
+    class Meta:
+        db_table = 'developer'
+
+
