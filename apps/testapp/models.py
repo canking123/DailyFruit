@@ -20,3 +20,8 @@ class Developer(models.Model):
     class Meta:
         db_table = 'developer'
 
+
+class HeroInfo(models.Model):
+    hname = models.CharField(max_length=20)
+    hcontent = models.CharField(max_length=100)
+
