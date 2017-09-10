@@ -10,7 +10,7 @@ class UserInfo(models.Model):
 
 class UserAddressInfo(models.Model):
     uname = models.CharField(max_length=20)
-    uaddress = models.TextField(max_length=200)
-    uphone = models.IntegerField(max_length=11)
+    uaddress = models.CharField(max_length=200)
+    uphone = models.CharField(max_length=11)
     user = models.ForeignKey('UserInfo')
 
