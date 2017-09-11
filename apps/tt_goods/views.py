@@ -25,8 +25,9 @@ def index(request):
 
 
 def list(request, l_id):
-
-    return render(request, 'tt_goods/list.html')
+    glist = GoodsInfo.objects.all().filter(gtype_id=l_id)
+    context = {'glist': glist}
+    return render(request, 'tt_goods/list.html',context)
 
 
 def detail(request,g_id):
