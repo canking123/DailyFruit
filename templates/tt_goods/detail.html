@@ -3,24 +3,31 @@
 {% block head %}
     <title>天天生鲜-商品详情</title>
 	<script type="text/javascript">
-		var $add_x = $('#add_cart').offset().top;
-		var $add_y = $('#add_cart').offset().left;
+    $(function () {
+        	$('#add_cart').click(function(){
+                var $add_x = $('#add_cart').offset().top;
+		        var $add_y = $('#add_cart').offset().left;
 
-		var $to_x = $('#show_count').offset().top;
-		var $to_y = $('#show_count').offset().left;
+		        var $to_x = $('#show_count').offset().top;
+		        var $to_y = $('#show_count').offset().left;
 
 		$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
-		$('#add_cart').click(function(){
+
 			$(".add_jump").stop().animate({
 				'left': $to_y+7,
 				'top': $to_x+7},
 				"fast", function() {
 					$(".add_jump").fadeOut('fast',function(){
-						$('#show_count').html(2);
+						$('#show_count').html(parseInt($('#show_count').html()) + 1);
 					});
 
 			});
 		})
+
+    })
+
+
+
 	</script>
 {% endblock head %}
 
@@ -114,7 +121,8 @@
 			<div class="total">总价：<em>16.80元</em></div>
 			<div class="operate_btn">
 				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_jump" id="add_cart">加入购物车</a>
+				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
+
 			</div>
 		</div>
 	</div>
@@ -153,5 +161,5 @@
 
 		</div>
 	</div>
-
+<div class="add_jump"></div>
 {% endblock body %}
