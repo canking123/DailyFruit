@@ -1,5 +1,5 @@
 from django.db import models
-
+from tinymce.models import HTMLField
 
 # Create your models here.
 
@@ -25,7 +25,7 @@ class GoodsInfo(models.Model):
     # 库存量
     gstorage = models.IntegerField()
     # 描述
-    gcontent = models.TextField()
+    gcontent = HTMLField()
     # 类型
     gtype = models.ForeignKey(TypeInfo)
 
