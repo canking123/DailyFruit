@@ -128,3 +128,7 @@ EMAIL_HOST_USER = '302713200@qq.com'
 EMAIL_HOST_PASSWORD = 'xwhafctznkpqcaca'
 #收件人看到的发件人
 EMAIL_FROM = 'lipanfeng<302713200@qq.com>'
+
+
+
+# APPEND_SLASH = False

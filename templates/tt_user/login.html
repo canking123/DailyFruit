@@ -2,16 +2,16 @@
 
 {%block head%}
 <title>天天生鲜-登录</title>
-<script type="text/javascript">
-	$(function(){
-		$('.input_submit').click(function (){
-//		    alert('hehe')
+<!--<script type="text/javascript">-->
+	<!--$(function(){-->
+		<!--$('.input_submit').click(function (){-->
+<!--//		    alert('hehe')&ndash;&gt;-->
+<!--//			$.post()用户名错误或密码错误的判断&ndash;&gt;-->
+			<!--$.post('tt_goods/index.html',)-->
+		<!--})-->
 
-//			$.post()用户名错误或密码错误的判断
-		})
-
-	})
-</script>
+	<!--})-->
+<!--</script>-->
 {%endblock head%}
 
 
@@ -30,7 +30,7 @@
 					<a href="#">立即注册</a>
 				</div>
 				<div class="form_input">
-					<form action="/user/login" method="post">
+					<form action="/user/login_handle/" method="post">
 						<input type="text" name="username" class="name_input" placeholder="请输入用户名">
 						<div class="user_error">输入错误</div>
 						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
