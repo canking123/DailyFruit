@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'tt_goods',
     'tt_cart',
     'tt_order',
+    'tinymce',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -130,5 +131,9 @@ EMAIL_HOST_PASSWORD = 'xwhafctznkpqcaca'
 EMAIL_FROM = 'lipanfeng<302713200@qq.com>'
 
 
+TINYMCE_DEFAULT_CONFIG={
+    'theme':'advanced',
+    'width':600,
+    'height':400,
+}
 
-# APPEND_SLASH = False

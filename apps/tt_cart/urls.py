@@ -1,5 +1,5 @@
 from django.conf.urls import url
 from . import views
 urlpatterns = [
-    url('^sp/$', views.cart),
+    url(r'^sp/$', views.cart),
 ]
