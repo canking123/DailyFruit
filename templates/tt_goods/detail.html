@@ -2,25 +2,25 @@
 
 {% block head %}
     <title>天天生鲜-商品详情</title>
-	<script type="text/javascript">
-    $(function () {
+    <script type="text/javascript">
+        $(function () {
 
-          $('.num_show').keyup(function () {
+            $('.num_show').keyup(function () {
                 var num = parseInt($(this).val());
-                if(isNaN(num)){
+                if (isNaN(num)) {
                     num = 1;
 
                 }
-                if(num <= 0){
+                if (num <= 0) {
                     num = 1;
                 }
                 var kucun = $('#kucun').val();
-                if(num >=kucun){
+                if (num >= kucun) {
                     num = kucun
                 }
                 var price = parseFloat($('.show_pirze em').text());
                 var total = num * price;
-                $('.total em').html(total.toFixed(2)+'元');
+                $('.total em').html(total.toFixed(2) + '元');
                 $(this).val(num)
             })
 
@@ -30,54 +30,52 @@
                 $('.num_show').val(num).keyup();
             })
 
-              $('.minus').click(function () {
+            $('.minus').click(function () {
                 var num = parseInt($('.num_show').val());
                 num--;
                 $('.num_show').val(num).keyup();
             })
 
 
-        	$('#add_cart').click(function(){
+            $('#add_cart').click(function () {
 
                 var gid = {{ goods.0.id }}
-                alert('goods.id----'+ gid);
+                    alert('goods.id----' + gid);
                 var count = $('.num_show').val()
-                alert('数量'+count);
+                alert('数量' + count);
 
-                $.get('/user/islogin/',function (data) {
+                $.get('/user/islogin/', function (data) {
                     alert(data.islogin)
-                    if(data.islogin==1)
-                    {
-                        $.get('/cart/add/',{'gid':gid,'count':count},function (data) {
+                    if (data.islogin == 1) {
+                        $.get('/cart/add/', {'gid': gid, 'count': count}, function (data) {
 
-                            if(data.isok==1)
-                            {
-                            var $add_x = $('#add_cart').offset().top;
-                            var $add_y = $('#add_cart').offset().left;
+                            if (data.isok == 1) {
+                                var $add_x = $('#add_cart').offset().top;
+                                var $add_y = $('#add_cart').offset().left;
 
-                            var $to_x = $('#show_count').offset().top;
-                            var $to_y = $('#show_count').offset().left;
+                                var $to_x = $('#show_count').offset().top;
+                                var $to_y = $('#show_count').offset().left;
 
-                            $(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+                                $(".add_jump").css({'left': $add_y + 80, 'top': $add_x + 10, 'display': 'block'})
                                 $(".add_jump").stop().animate({
-                                    'left': $to_y+7,
-                                    'top': $to_x+7},
-                                    "fast", function() {
-                                        $(".add_jump").fadeOut('fast',function(){
-                                            $.get('/cart/count/',function (data) {
-                                            $('#show_count').html(data.count)
-                    })
+                                        'left': $to_y + 7,
+                                        'top': $to_x + 7
+                                    },
+                                    "fast", function () {
+                                        $(".add_jump").fadeOut('fast', function () {
+                                            $.get('/cart/count/', function (data) {
+                                                $('#show_count').html(data.count)
+                                            })
 
                                         });
 
-                                });
+                                    });
 
 
                             }
 
-                            else
-                            {
-                                location.href='/user/login/'
+                            else {
+                                location.href = '/user/login/'
                             }
 
                         })
@@ -85,9 +83,8 @@
                 })
 
 
-
             })
-    })
+        })
 
     </script>
 {% endblock head %}
@@ -213,7 +210,7 @@
             <div class="tab_content">
                 <dl>
                     <dt>商品详情：</dt>
-                    <dd >{{ goods.0.gcontent|safe}} </dd>
+                    <dd>{{ goods.0.gcontent|safe }} </dd>
 
                     <dd class="content"></dd>
                 </dl>

@@ -22,7 +22,6 @@
         });
 
         function add_cart(gid) {
-            alert('eee')
             $.get('/user/islogin', function (data) {
                 if (data.islogin == 1) {
                     $.get('/cart/add/', {'gid': gid, 'count': 1}, function (data) {
