@@ -2,6 +2,12 @@
 
 {%block head%}
 <title>天天生鲜-用户中心</title>
+<script>
+	$(function () {
+		$('.login_info').show();
+		$('.login_btn').hide();
+    })
+</script>
 {%endblock head%}
 
 {% block body %}
@@ -10,7 +16,9 @@
 			<div class="welcome fl">欢迎来到天天生鲜!</div>
 			<div class="fr">
 				<div class="login_info fl">
-					欢迎您：<em>张 山</em>
+					欢迎您：<em>{{user_name1}}</em>
+					<span>|</span>
+					<a href="/user/login/" style="margin-left: 6px"> 退出</a>
 				</div>
 				<div class="login_btn fl">
 					<a href="login.html">登录</a>
@@ -42,9 +50,9 @@
 		<div class="left_menu_con clearfix">
 			<h3>用户中心</h3>
 			<ul>
-				<li><a href="user_center_info.html">· 个人信息</a></li>
-				<li><a href="user_center_order.html" class="active">· 全部订单</a></li>
-				<li><a href="user_center_site.html">· 收货地址</a></li>
+				<li><a href="/user/user_center_info/">· 个人信息</a></li>
+				<li><a href="/user/user_center_order/" class="active">· 全部订单</a></li>
+				<li><a href="/user/user_center_site/">· 收货地址</a></li>
 			</ul>
 		</div>
 		<div class="right_content clearfix">

@@ -117,8 +117,23 @@ STATICFILES_DIRS = [
 ]
 MEDIA_ROOT=os.path.join(BASE_DIR,'static/media')
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 587
+#发送邮件的邮箱
+EMAIL_HOST_USER = '302713200@qq.com'
+#在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'xwhafctznkpqcaca'
+#收件人看到的发件人
+EMAIL_FROM = 'lipanfeng<302713200@qq.com>'
+
+
 TINYMCE_DEFAULT_CONFIG={
     'theme':'advanced',
     'width':600,
     'height':400,
 }
+
