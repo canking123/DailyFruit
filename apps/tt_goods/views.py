@@ -41,7 +41,6 @@ def detail(request, g_id):
     count = GoodsInfo.objects.count()#商品总数
     n_glist = GoodsInfo.objects.all()[count - 3:count]#取出最新三件商品
 
-    # data = GoodsInfo.objects.get('gtype')
-    # gtype=data.typeinfo_set.all()
+    gtype=TypeInfo.objects.filter(goodsinfo__id=g_id)#查询商品类型
     context = {'goods': goods, 'n_glist': n_glist,'gtype':gtype}
     return render(request, 'tt_goods/detail.html', context)
