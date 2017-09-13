@@ -27,16 +27,17 @@ def add_user(request):
     user_info = UserInfo()
     # 获取用户输入的姓名
     user_info.uname = dict.get('user_name')
+    send_name = dict.get('user_name')
     # 获取用户输入的密码并进行加密
     s1 = sha1()
     s1.update(dict.get('pwd').encode('utf8'))
     user_info.upwd = s1.hexdigest()
     # 获取用户输入的邮箱
     user_info.uemail = dict.get('email')
-    # 激活功能还没有完善，只要用户输入了信息就默认他激活了账户
-    user_info.isActive = 1
     # 将获取到的用户信息保存到数据库中
     user_info.save()
+
+    send(request,send_name)
     # 重定向到登录页面
     return redirect('/user/login')
 
@@ -49,6 +50,7 @@ def login_handle(request):
     username = dict.get('username')
     # 获取用户输入的密码
     pwd = dict.get('pwd')
+    uemail = dict.get('uemail')
     try:
         # uname是数据库中的字段，username是获取到的用户输入
         user = UserInfo.objects.get(uname=username)
@@ -65,30 +67,14 @@ def login_handle(request):
     else:
         # session_list = []
         request.session['uid'] = user.id
+
         # session_list.append(user.id)
         # return render(request,'tt_user/user_center_info.html')
         return redirect('/user/user_center_info')
 
-    # user_info = UserInfo()
-    # if not request.POST.get('username'):
-    #     return redirect('/user/login')
-
-    # user_info.uname = request.POST.get('username')
-
-    # s1 = sha1()
-    # s1.update(request.POST.get('pwd').encode('utf8'))
-    # s1.update(request.POST.get('pwd'))
-    # user_info.upwd = s1.hexdigest()
-    # print('5555555')
-    # if user_info.uname == 'uname' and user_info.upwd == 'upwd':
-    #     return redirect('/')
-    # else:
-    #     pass
-        # return render(request, 'tt_user/login.html')
-
 def user_center_info(request):
     user_id = request.session.get('uid')
-    user = UserInfo.objects.get(id = int(user_id))
+    user = UserInfo.objects.get(id=int(user_id))
     user_name = user.uname
     context = {'user_name1':user_name}
     return render(request,'tt_user/user_center_info.html',context)
@@ -103,7 +89,7 @@ def user_center_order(request):
 
 def user_center_site(request):
     user_id = request.session.get('uid')
-    user = UserInfo.objects.get(id = user_id)
+    user = UserInfo.objects.get(id=user_id)
     user_name = user.uname
     context = {'user_name1': user_name}
     return render(request, 'tt_user/user_center_site.html',context)
@@ -113,20 +99,23 @@ def logout(request):
     return redirect('/user/login/')
     # return render(request,'tt_user/login.html')
 
-def send(request):
-    msg='<a href="http://127.0.0.1:8000/user/active/" target="_blank">点击激活</a>'
-    send_mail('nihao',
+def send(request,user_name):
+    user = UserInfo.objects.get(uname=user_name)
+    msg='<a href="http://127.0.0.1:8000/user/active/%s" target="_blank">点击激活</a>'%(user.id)
+    send_mail('天天生鲜用户激活',
               '',
               settings.EMAIL_FROM,
               ['302713200@qq.com'],
               html_message=msg)
 
     # 后期部署改用真实的ip地址   user_info = UserInfo.objects.filter()
+    return HttpResponse('用户注册成功，请到邮箱中激活')
 
-    return HttpResponse('ok')
-
-def active(request):
-    return HttpResponse('激活')
+def active(request,uid):
+    user = UserInfo.objects.get(id=uid)
+    user.isActive = True
+    user.save()
+    return HttpResponse('激活成功，<a href="/user/login/">点击登录</a>')
 
 
 def islogin(request):
@@ -134,3 +123,15 @@ def islogin(request):
     if request.session.has_key('uid'):
         result = 1
     return JsonResponse({'islogin':result})
+
+
+
+def update_address(request):
+    dict = request.GET
+    recvPerson = dict.get('recv_person')
+    address = dict.get('detailed_address')
+    postAddress = dict.get('post_address')
+    phone = dict.get('cell_phone')
+    context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone}
+    return render(request,'tt_user/user_center_site.html',context)
+
