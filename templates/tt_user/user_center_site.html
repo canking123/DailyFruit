@@ -2,13 +2,86 @@
 
 {%block head%}
 <title>天天生鲜-用户中心</title>
-<script>
+<script type="text/javascript">
 	$(function () {
 		$('.login_info').show();
 		$('.login_btn').hide();
-        $('.add_con').html('{{ detailed_address }}')
 
-    })
+        var str = '{{ detailed_address }} （{{ recv_person }} 收） {{ cell_phone }}';
+        $('.add_con').html(str);
+{#        $('.info_submit').submit(function () {#}
+{#            checkRecv_person();#}
+{#            checkPost_address();#}
+{#            checkSite_area();#}
+{#            checkCell_phone();#}
+{#        })#}
+        var error_recv_person = false;
+        var error_post_address = false;
+        var error_cell_phone = false;
+        var error_site_area = false;
+
+	
+	function checkRecv_person() {
+        var len = $('.recv_person').val().length;
+		if(len<3||len>20||len===0) {
+            alert('请输入3-20个字符的用户名');
+            error_recv_person = true;
+        }else{
+            error_recv_person = false;
+        }
+    }
+
+    function checkSite_area() {
+        var value = $('.site_area').val();
+        if(value==''){
+            alert('地址不能为空！');
+            error_site_area = true;
+        }else{
+            error_site_area = false;
+
+        }
+    }
+
+    function checkPost_address() {
+        var re= /^[1-9][0-9]{5}$/;
+        if(re.test($('.post_address').val())){
+            error_post_address = false;
+
+        }else{
+            alert('您输入的邮编有误！');
+            error_post_address = true;
+        }
+    }
+
+    function checkCell_phone() {
+	    var re= /^(13[0-9]{9})|(15[013589][0-9]{8})$/;
+        if (re.test($('.cell_phone').val()))
+        {
+            error_cell_phone = false;
+        }else{
+            alert('您输入的电话号码有误！');
+            error_cell_phone = true;
+        }
+    }
+
+    '只有表单才有submit功能'
+    $('.submit').submit(function () {
+        checkRecv_person();
+        checkPost_address();
+        checkSite_area();
+        checkCell_phone();
+        if(error_recv_person == false && error_post_address == false && error_site_area == false && error_cell_phone == false)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+    });
+});
+
 </script>
 {%endblock head%}
 
@@ -62,15 +135,15 @@
 				<div class="site_con">
 					<dl>
 						<dt>当前地址：</dt>
-						<dd class="add_con">北京市 海淀区 东北旺西路8号中关村软件园 （李思 收） 182****7528</dd>
+						<dd class="add_con"></dd>
 					</dl>					
 				</div>
 				<h3 class="common_title2">编辑地址</h3>
 				<div class="site_con">
-					<form action="/user/update_address/" method="get">
+					<form action="/user/update_address/" method="get" class="submit">
 						<div class="form_group">
 							<label>收件人：</label>
-							<input type="text" name="recv_person">
+							<input type="text" name="recv_person" class="recv_person">
 						</div>
 						<div class="form_group form_group2">
 							<label>详细地址：</label>
@@ -78,11 +151,11 @@
 						</div>
 						<div class="form_group">
 							<label>邮编：</label>
-							<input type="text" name="post_address">
+							<input type="text" name="post_address" placeholder="请输入6位邮编号，必须是纯数字" class="post_address">
 						</div>
 						<div class="form_group">
 							<label>手机：</label>
-							<input type="text" name="cell_phone">
+							<input type="text" name="cell_phone" placeholder="请输入11位数字的手机号码" class="cell_phone">
 						</div>
 
 						<input type="submit" name="" value="提交" class="info_submit">

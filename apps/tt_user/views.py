@@ -73,12 +73,12 @@ def login_handle(request):
         return redirect('/user/user_center_info')
 
 def user_center_info(request):
-    user_id = request.session.get('uid')
-    user = UserInfo.objects.get(id=int(user_id))
-    user_name = user.uname
-    context = {'user_name1':user_name}
-    return render(request,'tt_user/user_center_info.html',context)
-    # return redirect('/user/user_center_info/')
+     user_info= UserAddressInfo.objects.filter(user_id=int(request.session.get('uid'))).order_by('-pk')
+     user_id = request.session.get('uid')
+     user = UserInfo.objects.get(id=user_id)
+     user_name = user.uname
+     context = {'user_name1': user_name, 'user_info' : user_info}
+     return render(request,'tt_user/user_center_info.html',context)
 
 def user_center_order(request):
     user_id = request.session.get('uid')
@@ -91,8 +91,9 @@ def user_center_site(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=user_id)
     user_name = user.uname
-    context = {'user_name1': user_name}
-    return render(request, 'tt_user/user_center_site.html',context)
+    uad_li = UserAddressInfo.objects.filter(user=user).order_by('-pk')
+    context = {'user_name1': user_name,'recv_person':uad_li[0].uname, 'detailed_address':uad_li[0].uaddress, 'cell_phone':uad_li[0].uphone}
+    return render(request, 'tt_user/user_center_site.html', context)
 
 def logout(request):
     del request.session['uid']
@@ -120,9 +121,21 @@ def active(request,uid):
 
 def update_address(request):
     dict = request.GET
+    uid = request.session['uid']
     recvPerson = dict.get('recv_person')
+
     address = dict.get('detailed_address')
     postAddress = dict.get('post_address')
     phone = dict.get('cell_phone')
+
+    userAddr = UserAddressInfo()
+    userAddr.uaddress = address
+    userAddr.uphone = phone
+    userAddr.user_id = uid
+    userAddr.uname = recvPerson
+
+    userAddr.save()
+
     context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone}
+
     return render(request,'tt_user/user_center_site.html',context)
