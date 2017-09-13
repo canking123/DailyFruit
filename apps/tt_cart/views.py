@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import CartInfo
 from tt_goods.models import GoodsInfo
 from django.http import JsonResponse
+from django.db.models import Sum
 # Create your views here.
 
 
@@ -13,10 +14,9 @@ def add(request):
     dict = request.GET
     gid = int(dict.get('gid', ''))
     count = int(dict.get('count'))
-    print('gid' + gid)
-    kucun = GoodsInfo.objects.get(pk=gid).gkucun
-    uid = int(request.session.get('uid'))
+    kucun = GoodsInfo.objects.get(pk=gid).gstorage
 
+    uid = int(request.session.get('uid'))
     carts = CartInfo.objects.filter(user_id=uid, goods_id=gid)
     if len(carts) == 0:
         cart = CartInfo()
@@ -34,3 +34,17 @@ def add(request):
         cart.save()
 
     return JsonResponse({'isok': 1})
+
+
+def count(request):
+    c = calc_count(request.session.get('uid'))
+    return JsonResponse({'count': c})
+
+
+def calc_count(uid):
+    c = CartInfo.objects.filter(user_id=uid).aggregate(Sum('count'))
+
+    if c.get('count__sum') == None:
+        return 0
+    else:
+        return c.get('count__sum')

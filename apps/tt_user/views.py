@@ -127,3 +127,10 @@ def send(request):
 
 def active(request):
     return HttpResponse('激活')
+
+
+def islogin(request):
+    result = 0
+    if request.session.has_key('uid'):
+        result = 1
+    return JsonResponse({'islogin':result})

@@ -38,25 +38,20 @@
 
 
         	$('#add_cart').click(function(){
+
                 var gid = {{ goods.0.id }}
                 alert('goods.id----'+ gid);
                 var count = $('.num_show').val()
                 alert('数量'+count);
 
+                $.get('/user/islogin/',function (data) {
+                    alert(data.islogin)
+                    if(data.islogin==1)
+                    {
+                        $.get('/cart/add/',{'gid':gid,'count':count},function (data) {
 
-
-
-                var $add_x = $('#add_cart').offset().top;
-		        var $add_y = $('#add_cart').offset().left;
-
-		        var $to_x = $('#show_count').offset().top;
-		        var $to_y = $('#show_count').offset().left;
-
-
-
-                 $.get('/cart/add/',{'gid':gid,'count':count},function (data) {
-
-                      if(data.isok==1) {
+                            if(data.isok==1)
+                            {
                             var $add_x = $('#add_cart').offset().top;
                             var $add_y = $('#add_cart').offset().left;
 
@@ -78,12 +73,18 @@
                                 });
 
 
-                      }
-                      else {
+                            }
+
+                            else
+                            {
                                 location.href='/user/login/'
-                      }
+                            }
 
                         })
+                    }
+                })
+
+
 
             })
     })
@@ -110,7 +111,7 @@
 					<span>|</span>
 					<a href="../tt_user/user_center_info.html">用户中心</a>
 					<span>|</span>
-					<a href="../tt_cart/cart.html">我的购物车</a>
+					<a href="/cart/sp">我的购物车</a>
 					<span>|</span>
 					<a href="../tt_user/user_center_order.html">我的订单</a>
 				</div>
@@ -125,7 +126,7 @@
 			<input type="button" class="input_btn fr" name="" value="搜索">
 		</div>
 		<div class="guest_cart fr">
-			<a href="../tt_cart/cart.html" class="cart_name fl">我的购物车</a>
+			<a href="/cart/sp" class="cart_name fl">我的购物车</a>
 			<div class="goods_count fl" id="show_count">1</div>
 		</div>
 	</div>
