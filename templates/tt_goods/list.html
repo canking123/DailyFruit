@@ -2,6 +2,28 @@
 
 {% block head %}
     <title>天天生鲜-商品列表</title>
+    <script>
+        $(function () {
+            $atip = $('.sort_bar a');
+            xxx ={{ gsort }};
+            alert(xxx);
+            if (xxx == 0) {
+                $atip.eq(0).addClass('active').siblings().removeClass('acti;ve')
+            }
+            else if (xxx == 1) {
+                $atip.eq(1).addClass('active').siblings().removeClass('active');
+            }
+            else if (xxx == 2) {
+                $atip.eq(2).addClass('active').siblings().removeClass('active');
+            }
+
+
+            {#            $atip.click(function () {#}
+            {#                $(this).addClass('active').siblings().removeClass('active')#}
+            {#            })#}
+        })
+
+    </script>
 {% endblock head %}
 
 
@@ -79,11 +101,11 @@
                 <ul>
 
                     {% for GoodsData in n_glist %}
-                     <li>
-                        <a href="/detail/{{ GoodsData.id }}"><img src="/static/media/{{GoodsData.gpic}}"></a>
-                        <h4><a href="/detail/{{ GoodsData.id }}">{{ GoodsData.gtitle }}</a></h4>
-                        <div class="prize">{{ GoodsData.gprice }}</div>
-                    </li>
+                        <li>
+                            <a href="/detail/{{ GoodsData.id }}"><img src="/static/media/{{ GoodsData.gpic }}"></a>
+                            <h4><a href="/detail/{{ GoodsData.id }}">{{ GoodsData.gtitle }}</a></h4>
+                            <div class="prize">{{ GoodsData.gprice }}</div>
+                        </li>
                     {% endfor %}
 
                 </ul>
@@ -92,7 +114,8 @@
 
         <div class="r_wrap fr clearfix">
             <div class="sort_bar">
-                <a href="#" class="active">默认</a>
+                {#                <a href="#" class="active" >默认</a>#}
+                <a href="/list/{{ gtype.0.id }}/0">默认</a>
                 <a href="/list/{{ gtype.0.id }}/1">价格</a>
                 <a href="/list/{{ gtype.0.id }}/2">人气</a>
             </div>
@@ -100,7 +123,7 @@
             <ul class="goods_type_list clearfix">
                 {% for GoodsData in glist %}
                     <li>
-                        <a href="/detail/{{ GoodsData.id }}"><img src="/static/media/{{GoodsData.gpic}}"></a>
+                        <a href="/detail/{{ GoodsData.id }}"><img src="/static/media/{{ GoodsData.gpic }}"></a>
                         <h4><a href="/detail/{{ GoodsData.id }}">{{ GoodsData.gtitle }}</a></h4>
                         <div class="operate">
                             <span class="prize">{{ GoodsData.gprice }}</span>
@@ -109,7 +132,6 @@
                         </div>
                     </li>
                 {% endfor %}
-
 
 
             </ul>

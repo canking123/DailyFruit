@@ -11,7 +11,6 @@ def index(request):
         cats = CartInfo.objects.all()
         print(cats)
         print('1234')
-
         glist = GoodsInfo.objects.filter(gtype=i)
         glist = glist[0:4]
         cont2 = {'glist%s' % (i): glist}
@@ -27,19 +26,19 @@ def list(request, l_id, l_sort):
         glist = GoodsInfo.objects.filter(gtype_id=l_id)  # 筛选一类商品
 
     if (l_sort == '0'):
-        glist=glist.order_by('gtitle')
+        glist = glist.order_by('gtitle')
     elif (l_sort == '1'):
-        glist =glist.order_by('gprice')
+        glist = glist.order_by('gprice')
     elif (l_sort == '2'):
-        glist =glist.order_by('gclick')
-
+        glist = glist.order_by('gclick')
+    gsort = l_sort  # 排序方式
     gtype = TypeInfo.objects.filter(id=l_id)  # 一类商品的类型
 
     count = GoodsInfo.objects.count()  # 总数
     n_glist = GoodsInfo.objects.all()
     n_glist = n_glist[count - 3:count]  # 取出最新的三件商品
 
-    context = {'glist': glist, 'n_glist': n_glist, 'gtype': gtype}
+    context = {'glist': glist, 'n_glist': n_glist, 'gtype': gtype, 'gsort': gsort}
     return render(request, 'tt_goods/list.html', context)
 
 
