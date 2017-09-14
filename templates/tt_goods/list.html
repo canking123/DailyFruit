@@ -7,7 +7,7 @@
         $(function () {
             $atip = $('.sort_bar a');
             xxx ={{ gsort }};
-            if (xxx == 0 && xxx=='') {
+            if (xxx == 0) {
                 $atip.eq(0).addClass('active').siblings().removeClass('active');
             }
             else if (xxx == 1) {
@@ -31,19 +31,13 @@
                                 $('#show_count').html(data.count)
                             })
                         }
-<<<<<<< HEAD
                         else {
                             location.href = '/user/login/'
-=======
-                        else
-                        {
-                            window.location.href='/user/login/'
->>>>>>> 46cad67596d12b4bd823173510f81a935ef99c56
                         }
                     })
-                }else{
-                            alert('请您先登陆')
-                            window.location.href='/user/login/'
+                } else {
+                    alert('请您先登陆')
+                    window.location.href = '/user/login/'
 
                 }
             })
@@ -116,7 +110,7 @@
     </div>
 
     <div class="breadcrumb">
-        <a href="../0">全部分类</a>
+        <a href="../100">全部分类</a>
         <span>></span>
         <a href="#">{{ gtype.0.ttitle }}</a>
     </div>
