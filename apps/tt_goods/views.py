@@ -39,7 +39,7 @@ def list(request, pindex,l_id, l_sort):
 
     p = Paginator(glist, 15)
 
-    pIndex={'page':pindex}#传入的页码
+    pIndex={'page':pindex,'prepage':int(pindex)-1,'nextpage':int(pindex)+1}#传入的页码
     glist = p.page(int(pindex))
     plist = p.page_range
 

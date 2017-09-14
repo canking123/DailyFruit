@@ -11,14 +11,9 @@
             $title_tip.eq(ttip).addClass('active').siblings().removeClass('active');
 {#            页码选中效果#}
             $page_tip = $('.pagenation a');
-            ptip ={{ pIndex.page }}-1;
+            ptip ={{ pIndex.page }};
             $page_tip.eq(ptip).addClass('active').siblings().removeClass('active');
 
-
-{#            $('#prepage').click(function () {#}
-{#                aaa = {{ pIndex.page }}-1;#}
-{#                {{ pIndex.aa }}=aaa#}
-            })
         });
 
         function add_cart(gid) {
@@ -58,17 +53,17 @@
                     欢迎您：<em>张 山</em>
                 </div>
                 <div class="login_btn fl">
-                    <a href="../user/login">登录</a>
+                    <a href="/user/login">登录</a>
                     <span>|</span>
-                    <a href="../user/register">注册</a>
+                    <a href="/user/register">注册</a>
                 </div>
                 <div class="user_link fl">
                     <span>|</span>
-                    <a href="../user/user_center_info">用户中心</a>
+                    <a href="/user/user_center_info">用户中心</a>
                     <span>|</span>
-                    <a href="../cart/sp">我的购物车</a>
+                    <a href="/cart/sp">我的购物车</a>
                     <span>|</span>
-                    <a href="../user/user_center_order">我的订单</a>
+                    <a href="/user/user_center_order">我的订单</a>
                 </div>
             </div>
         </div>
@@ -81,7 +76,7 @@
             <input type="button" class="input_btn fr" name="" value="搜索">
         </div>
         <div class="guest_cart fr">
-            <a href="../cart/sp" class="cart_name fl">我的购物车</a>
+            <a href="/cart/sp" class="cart_name fl">我的购物车</a>
             <div class="goods_count fl" id="show_count">0</div>
         </div>
     </div>
@@ -160,7 +155,7 @@
 
 
             <div class="pagenation">
-{#                <a href="/list/{{ pIndex.aa }}/{{ gtype.0.id }}/{{ gsort.num }}" id="prepage">上一页</a>#}
+                <a href="/list/{{ pIndex.prepage }}/{{ gtype.0.id }}/{{ gsort.num }}" id="prepage">上一页</a>
 
                 {%for pindex in plist%}
                     {%if pIndex.page == pindex%}
@@ -171,7 +166,7 @@
                 {%endfor%}
 
 
-{#                <a href="/list/{{ pIndex.page }}/{{ gtype.0.id }}/{{ gsort.num }}">下一页></a>#}
+                <a href="/list/{{ pIndex.nextpage }}/{{ gtype.0.id }}/{{ gsort.num }}">下一页></a>
             </div>
         </div>
     </div>
