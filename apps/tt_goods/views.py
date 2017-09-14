@@ -54,4 +54,12 @@ def detail(request, g_id):
 
     gtype = TypeInfo.objects.filter(goodsinfo__id=g_id)  # 查询商品类型
     context = {'goods': goods, 'n_glist': n_glist, 'gtype': gtype}
-    return render(request, 'tt_goods/detail.html', context)
+    response =  render(request, 'tt_goods/detail.html', context)
+    # 存入cookie,记录浏览商品id----frank
+    '''
+    １，取cookie,key为goods_id，用一个变量存起来，比如gid
+    2,gid = gid+'_'+g_id
+    3, 然后再次存进ｋｅｙ为goods_id的cookie
+    '''
+    response.set_cookie('goods_id',g_id,expires=5*24*60*60)
+    return response

@@ -111,6 +111,11 @@ def user_center_info(request):
      user_id = request.session.get('uid')
      user = UserInfo.objects.get(id=user_id)
      user_name = user.uname
+    #取cookie,ｋey为goodsid,'_270_268'
+     #截取字符串，split('_')
+     # ['',270,280].reverse()
+     #　goods_li = GoodsInfo.objects.filter(id__in=)
+     #　传给模板　goods_li[0:5]
      context = {'user_name1': user_name, 'user_info' : user_info}
      return render(request,'tt_user/user_center_info.html',context)
 
@@ -119,6 +124,7 @@ def user_center_order(request):
     user = UserInfo.objects.get(id=int(user_id))
     user_name = user.uname
     context = {'user_name1': user_name}
+
     return render(request, 'tt_user/user_center_order.html',context)
 
 def user_center_site(request):
