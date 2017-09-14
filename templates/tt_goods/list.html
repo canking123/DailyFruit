@@ -7,9 +7,8 @@
         $(function () {
             $atip = $('.sort_bar a');
             xxx ={{ gsort }};
-            alert(xxx);
             if (xxx == 0) {
-                $atip.eq(0).addClass('active').siblings().removeClass('acti;ve')
+                $atip.eq(0).addClass('active').siblings().removeClass('active');
             }
             else if (xxx == 1) {
                 $atip.eq(1).addClass('active').siblings().removeClass('active');
@@ -17,29 +16,33 @@
             else if (xxx == 2) {
                 $atip.eq(2).addClass('active').siblings().removeClass('active');
             }
+
+
         });
 
-            function add_cart(gid) {
-            $.get('/user/islogin',function (data) {
-                if(data.islogin==1)
-                {
-                    $.get('/cart/add/',{'gid':gid,'count':1},function (data) {
-                        if(data.isok==1)
-                        {
+        function add_cart(gid) {
+            $.get('/user/islogin', function (data) {
+                if (data.islogin == 1) {
+                    $.get('/cart/add/', {'gid': gid, 'count': 1}, function (data) {
+                        if (data.isok == 1) {
                             alert('加入购物车成功')
-                            $.get('/cart/count/',function (data) {
+                            $.get('/cart/count/', function (data) {
                                 alert('........show_count')
-                            $('#show_count').html(data.count)
-                    })
+                                $('#show_count').html(data.count)
+                            })
                         }
-                        else
-                        {
-                            location.href='/user/login/'
+                        else {
+                            location.href = '/user/login/'
                         }
                     })
+                } else {
+                    alert('请您先登陆')
+                    window.location.href = '/user/login/'
+
                 }
             })
         }
+
 
     </script>
 {% endblock head %}
@@ -107,7 +110,7 @@
     </div>
 
     <div class="breadcrumb">
-        <a href="../0">全部分类</a>
+        <a href="../100">全部分类</a>
         <span>></span>
         <a href="#">{{ gtype.0.ttitle }}</a>
     </div>
@@ -132,7 +135,7 @@
 
         <div class="r_wrap fr clearfix">
             <div class="sort_bar">
-                <a href="/list/{{ gtype.0.id }}/0">默认</a>
+                <a href="/list/{{ gtype.0.id }}/0" class="active">默认</a>
                 <a href="/list/{{ gtype.0.id }}/1">价格</a>
                 <a href="/list/{{ gtype.0.id }}/2">人气</a>
             </div>

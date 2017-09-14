@@ -20,7 +20,7 @@ def index(request):
 
 
 def list(request, l_id, l_sort):
-    if (l_id == '0'):
+    if (l_id == '100'):
         glist = GoodsInfo.objects.all()  # 全部商品
     else:
         glist = GoodsInfo.objects.filter(gtype_id=l_id)  # 筛选一类商品
@@ -32,6 +32,7 @@ def list(request, l_id, l_sort):
     elif (l_sort == '2'):
         glist = glist.order_by('gclick')
     gsort = l_sort  # 排序方式
+
     gtype = TypeInfo.objects.filter(id=l_id)  # 一类商品的类型
 
     count = GoodsInfo.objects.count()  # 总数
