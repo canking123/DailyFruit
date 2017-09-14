@@ -6,13 +6,12 @@ from django.db.models import Sum
 from tt_user.user_decorators import user_login
 # Create your views here.
 
+
 @user_login
 def cart(request):
     cart_list = CartInfo.objects.filter(user_id=int(request.session['uid']))
     context = {'title': '购物车', 'cart_list': cart_list}
     return render(request, 'tt_cart/cart.html', context)
-
-
 
 
 def add(request):
