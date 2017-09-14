@@ -42,35 +42,69 @@ def add_user(request):
     return redirect('/user/login')
 
 def login(request):
-    return render(request,'tt_user/login.html')
+    value = request.COOKIES.get('remember')
+    # if value is None:
+    #     return render(request, 'tt_user/login.html')
+    return render(request,'tt_user/login.html', {'uname': value})
 
 def login_handle(request):
-    dict = request.POST
-    # 获取用户输入的姓名
-    username = dict.get('username')
-    # 获取用户输入的密码
-    pwd = dict.get('pwd')
-    uemail = dict.get('uemail')
-    try:
-        # uname是数据库中的字段，username是获取到的用户输入
-        user = UserInfo.objects.get(uname=username)
-        s1 = sha1()
-        s1.update(pwd.encode('utf8'))
-        pwd = s1.hexdigest()
-        # upwd是数据库中的字段，pwd是用户输入的密码，要对其进行加密后比较二者是否一样如果一样说明密码正确
-        if user.upwd != pwd:
-            print('密码错误！请核对您的密码！')
-    except Exception as e:
-        print(e)
-        return HttpResponse('用户名输入有误，请重新输入')
-        # return redirect('user/login_handle/')
-    else:
-        # session_list = []
-        request.session['uid'] = user.id
+    username = request.POST.get('username')
+    pwd = request.POST.get('pwd')
 
-        # session_list.append(user.id)
-        # return render(request,'tt_user/user_center_info.html')
-        return redirect('/user/user_center_info')
+    s1 = sha1()
+    s1.update(pwd.encode())
+    pwd_sha1 = s1.hexdigest()
+
+    count = UserInfo.objects.filter(uname=username).count()
+    if count == 0:
+        # 定义error：1为用户名错误
+        return JsonResponse({'error': 1})
+    else:
+        user = UserInfo.objects.get(uname=username)
+        if user.upwd != pwd_sha1:
+            # 定义error：2为密码错误
+            return JsonResponse({'error': 2})
+        else:
+            dict = request.POST
+            # 获取用户输入的姓名
+            username = dict.get('username')
+            # 获取用户输入的密码
+            pwd = dict.get('pwd')
+            uemail = dict.get('uemail')
+
+            remember_user = dict.get('remember', 0)  # 0 是给它设置的默认值
+
+            # print(remember_user)
+            try:
+                # uname是数据库中的字段，username是获取到的用户输入
+                user = UserInfo.objects.get(uname=username)
+                s1 = sha1()
+                s1.update(pwd.encode('utf8'))
+                pwd = s1.hexdigest()
+                # upwd是数据库中的字段，pwd是用户输入的密码，要对其进行加密后比较二者是否一样如果一样说明密码正确
+                if user.upwd != pwd or user.upwd is None:
+                    print('密码错误！请核对您的密码！')
+                    return render(request, 'tt_user/login.html', {'upwd_error': '密码为空，或者错误！'})
+
+            except Exception as e:
+                print(e)
+                return HttpResponse('用户名输入有误，请重新输入')
+                # return redirect('user/login_handle/')
+
+            else:
+                response = redirect('/user/user_center_info/')
+                if remember_user == '1':  # 注意  remember_user传过来的是一个字符串
+                    response.set_cookie('remember', username, expires=7 * 24 * 60 * 60)
+                else:
+                    response.set_cookie('remember', username, expires=-1)
+
+                request.session['uid'] = user.id
+                return response
+            # 定义error：0为没有错误
+            # return JsonResponse({'error': 0})
+            return render(request,'tt_user/user_center_info.html')
+
+
 
 def user_center_info(request):
      user_info= UserAddressInfo.objects.filter(user_id=int(request.session.get('uid'))).order_by('-pk')
