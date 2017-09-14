@@ -150,8 +150,16 @@ def active(request,uid):
     user = UserInfo.objects.get(id=uid)
     user.isActive = True
     user.save()
-
     return HttpResponse('激活成功，<a href="/user/login/">点击登录</a>')
+
+
+def islogin(request):
+    result = 0
+    if request.session.has_key('uid'):
+        result = 1
+    return JsonResponse({'islogin':result})
+
+
 
 def update_address(request):
     dict = request.GET
@@ -173,3 +181,4 @@ def update_address(request):
     context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone}
 
     return render(request,'tt_user/user_center_site.html',context)
+
