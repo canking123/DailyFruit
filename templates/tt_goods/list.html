@@ -11,10 +11,14 @@
             $title_tip.eq(ttip).addClass('active').siblings().removeClass('active');
 {#            页码选中效果#}
             $page_tip = $('.pagenation a');
-            ptip ={{ pIndex.page }};
+            ptip ={{ pIndex.page }}-1;
             $page_tip.eq(ptip).addClass('active').siblings().removeClass('active');
 
 
+{#            $('#prepage').click(function () {#}
+{#                aaa = {{ pIndex.page }}-1;#}
+{#                {{ pIndex.aa }}=aaa#}
+            })
         });
 
         function add_cart(gid) {
@@ -156,7 +160,7 @@
 
 
             <div class="pagenation">
-{#                <a href="/list/{{ pIndex.page }}/{{ gtype.0.id }}/{{ gsort.num }}">上一页</a>#}
+{#                <a href="/list/{{ pIndex.aa }}/{{ gtype.0.id }}/{{ gsort.num }}" id="prepage">上一页</a>#}
 
                 {%for pindex in plist%}
                     {%if pIndex.page == pindex%}
