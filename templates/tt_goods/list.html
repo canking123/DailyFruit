@@ -7,7 +7,7 @@
         $(function () {
             $atip = $('.sort_bar a');
             xxx ={{ gsort }};
-            if (xxx == 0) {
+            if (xxx == 0 && xxx=='') {
                 $atip.eq(0).addClass('active').siblings().removeClass('active');
             }
             else if (xxx == 1) {
@@ -131,7 +131,7 @@
 
         <div class="r_wrap fr clearfix">
             <div class="sort_bar">
-                <a href="/list/{{ gtype.0.id }}/0">默认</a>
+                <a href="/list/{{ gtype.0.id }}/0" class="active">默认</a>
                 <a href="/list/{{ gtype.0.id }}/1">价格</a>
                 <a href="/list/{{ gtype.0.id }}/2">人气</a>
             </div>
