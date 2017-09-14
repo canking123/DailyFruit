@@ -31,10 +31,20 @@
                                 $('#show_count').html(data.count)
                             })
                         }
+<<<<<<< HEAD
                         else {
                             location.href = '/user/login/'
+=======
+                        else
+                        {
+                            window.location.href='/user/login/'
+>>>>>>> 46cad67596d12b4bd823173510f81a935ef99c56
                         }
                     })
+                }else{
+                            alert('请您先登陆')
+                            window.location.href='/user/login/'
+
                 }
             })
         }

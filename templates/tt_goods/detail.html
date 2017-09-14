@@ -39,14 +39,12 @@
             $('#add_cart').click(function () {
 
                 var gid = {{ goods.0.id }}
-                    alert('goods.id----' + gid);
                 var count = $('.num_show').val()
-                alert('数量' + count);
 
-                $.get('/user/islogin/', function (data) {
-                    alert(data.islogin)
-                    if (data.islogin == 1) {
-                        $.get('/cart/add/', {'gid': gid, 'count': count}, function (data) {
+                $.get('/user/islogin/',function (data) {
+                    if(data.islogin==1)
+                    {
+                        $.get('/cart/add/',{'gid':gid,'count':count},function (data) {
 
                             if (data.isok == 1) {
                                 var $add_x = $('#add_cart').offset().top;
@@ -78,6 +76,10 @@
                             }
 
                         })
+                    }else{
+                            alert('请您先登陆')
+                            location.href='/user/login/'
+
                     }
                 })
 
