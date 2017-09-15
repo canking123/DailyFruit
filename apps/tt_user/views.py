@@ -45,8 +45,8 @@ def add_user(request):
 
 def login(request):
     value = request.COOKIES.get('remember')
-    # if value is None:
-    #     return render(request, 'tt_user/login.html')
+    if value is None:
+        return render(request, 'tt_user/login.html')
     return render(request,'tt_user/login.html', {'uname': value})
 
 def login_handle(request):
@@ -101,6 +101,9 @@ def login_handle(request):
                     response.set_cookie('remember', username, expires=-1)
 
                 request.session['uid'] = user.id
+                request.session['uname'] = username
+
+
                 return response
             # 定义error：0为没有错误
             # return JsonResponse({'error': 0})
@@ -112,7 +115,7 @@ def user_center_info(request):
      user = UserInfo.objects.get(id=user_id)
      user_name = user.uname
      #取cookie,ｋey为goodsid,'_270_268'
-     cookie_id_list = request.COOKIES.get('goodsid')
+     cookie_id_list = request.COOKIES.get('goodsid'+str(user_id))
      if cookie_id_list is None:
          goods_list = []
 

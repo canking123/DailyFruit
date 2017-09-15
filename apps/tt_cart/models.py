@@ -8,3 +8,5 @@ class CartInfo(models.Model):
     user = models.ForeignKey(UserInfo)
     goods = models.ForeignKey(GoodsInfo)
     count = models.IntegerField()
+
+

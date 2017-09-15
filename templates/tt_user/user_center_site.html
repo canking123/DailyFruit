@@ -54,7 +54,7 @@
     }
 
     function checkCell_phone() {
-	    var re= /^(13[0-9]{9})|(15[013589][0-9]{8})$/;
+	    var re= /^1[134578]\d{9}$/;
         if (re.test($('.cell_phone').val()))
         {
             error_cell_phone = false;
