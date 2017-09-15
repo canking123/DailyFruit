@@ -76,7 +76,7 @@ def user_center_info(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=int(user_id))
     user_name = user.uname
-    context = {'user_name1':user_name}
+    context = {'user_name1':user_name, 'sub_page_name': '用户中心'}
     return render(request,'tt_user/user_center_info.html',context)
     # return redirect('/user/user_center_info/')
 
@@ -84,14 +84,14 @@ def user_center_order(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=int(user_id))
     user_name = user.uname
-    context = {'user_name1': user_name}
+    context = {'user_name1': user_name, 'sub_page_name': '用户中心'}
     return render(request, 'tt_user/user_center_order.html',context)
 
 def user_center_site(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=user_id)
     user_name = user.uname
-    context = {'user_name1': user_name}
+    context = {'user_name1': user_name, 'sub_page_name': '用户中心'}
     return render(request, 'tt_user/user_center_site.html',context)
 
 def logout(request):
@@ -132,6 +132,6 @@ def update_address(request):
     address = dict.get('detailed_address')
     postAddress = dict.get('post_address')
     phone = dict.get('cell_phone')
-    context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone}
+    context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone, 'sub_page_name': '用户中心'}
     return render(request,'tt_user/user_center_site.html',context)
 

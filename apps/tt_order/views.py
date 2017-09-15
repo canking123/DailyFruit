@@ -10,7 +10,7 @@ def place_order(request):
     dict=request.GET
     cid=dict.getlist('cid')#[1,3]
     cart_list=CartInfo.objects.filter(id__in=cid)
-    context={'clist':cart_list,'useraddr':useraddr}
+    context={'clist':cart_list,'useraddr':useraddr, 'sub_page_name': '提交订单'}
     return render(request,'tt_order/place_order.html',context)
 
 @transaction.atomic
