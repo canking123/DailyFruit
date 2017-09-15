@@ -55,3 +55,10 @@ def detail(request, g_id):
     gtype = TypeInfo.objects.filter(goodsinfo__id=g_id)  # 查询商品类型
     context = {'goods': goods, 'n_glist': n_glist, 'gtype': gtype}
     return render(request, 'tt_goods/detail.html', context)
+
+# query：搜索关键字
+# page：当前页的page对象
+# paginator：分页paginator对象
+# def sreach(request,query):
+#     return render(request,'search/in')
+

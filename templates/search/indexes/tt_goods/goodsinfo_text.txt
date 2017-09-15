@@ -1,0 +1,4 @@
+
+{{object.gcontent}}
+{{object.gtitle}}
+{{object.gdesc}}
