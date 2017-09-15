@@ -1,8 +1,11 @@
 from hashlib import sha1
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+<<<<<<< HEAD
 
 from tt_goods.models import GoodsInfo
+=======
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
@@ -106,11 +109,17 @@ def login_handle(request):
             # return JsonResponse({'error': 0})
             return render(request,'tt_user/user_center_info.html')
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 def user_center_info(request):
      user_info= UserAddressInfo.objects.filter(user_id=int(request.session.get('uid'))).order_by('-pk')
      user_id = request.session.get('uid')
      user = UserInfo.objects.get(id=user_id)
      user_name = user.uname
+<<<<<<< HEAD
      #取cookie,ｋey为goodsid,'_270_268'
      cookie_id_list = request.COOKIES.get('goodsid')
      if cookie_id_list is None:
@@ -125,6 +134,14 @@ def user_center_info(request):
          goods_list = GoodsInfo.objects.filter(id__in=cookie_id_list2)
          #　传给模板　goods_list[0:5]
      context = {'user_name1': user_name, 'user_info' : user_info,'goodslist':goods_list[0:5]}
+=======
+    #取cookie,ｋey为goodsid,'_270_268'
+     #截取字符串，split('_')
+     # ['',270,280].reverse()
+     #　goods_li = GoodsInfo.objects.filter(id__in=)
+     #　传给模板　goods_li[0:5]
+     context = {'user_name1': user_name, 'user_info' : user_info}
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
      return render(request,'tt_user/user_center_info.html',context)
 
 def user_center_order(request):
@@ -166,12 +183,21 @@ def active(request,uid):
     user.save()
     return HttpResponse('激活成功，<a href="/user/login/">点击登录</a>')
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 def islogin(request):
     result = 0
     if request.session.has_key('uid'):
         result = 1
     return JsonResponse({'islogin':result})
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 def update_address(request):
     dict = request.GET
     uid = request.session['uid']

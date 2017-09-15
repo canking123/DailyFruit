@@ -12,6 +12,12 @@ def cart(request):
     context = {'title': '购物车', 'cart_list': cart_list}
     return render(request, 'tt_cart/cart.html', context)
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 def add(request):
     dict = request.GET
     gid = int(dict.get('gid', ''))
@@ -51,6 +57,10 @@ def calc_count(uid):
     else:
         return c.get('count__sum')
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 def add_count(request):
     dict = request.GET
     add_id = dict.get('add_id')
@@ -59,6 +69,10 @@ def add_count(request):
     cart.save()
     return JsonResponse({'isok': 1})
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 def minus_count(request):
     dict = request.GET
     minus_id = dict.get('minus_id')
@@ -80,6 +94,10 @@ def change_count(request):
     cart.save()
     return JsonResponse({'isok': 1})
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
 def del_cart(request):
     try:
         cid = request.GET.get('cid')

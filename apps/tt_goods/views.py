@@ -61,10 +61,14 @@ def detail(request, g_id):
     2,gid = gid+'_'+g_id
     3, 然后再次存进ｋｅｙ为goods_id的cookie
     '''
+<<<<<<< HEAD
     if request.COOKIES.get('goodsid'):
         product_id = request.COOKIES.get('goodsid')
     else:
         product_id = ''
     product_id = product_id +'_' + g_id
     response.set_cookie('goodsid',product_id,expires=5*24*60*60)
+=======
+    response.set_cookie('goods_id',g_id,expires=5*24*60*60)
+>>>>>>> 3b4c13063f8887543b874826e6118e4cffc881b9
     return response
