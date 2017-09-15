@@ -11,7 +11,8 @@ def index(request):
     for i in range(1, 7):
         glist = GoodsInfo.objects.filter(gtype=i)
         glist = glist[0:4]
-        cont2 = {'glist%s' % (i): glist}
+
+        cont2 = {'glist%s' % (i): glist, 'show_searchbar':1}
         cont.update(cont2)
     context = cont
     return render(request, 'tt_goods/index.html', context)
@@ -43,7 +44,7 @@ def list(request, pindex,l_id, l_sort):
     glist = p.page(int(pindex))
     plist = p.page_range
 
-    context = {'glist': glist, 'n_glist': n_glist, 'gtype': gtype, 'gsort': gsort,'plist': plist, 'pIndex': pIndex}
+    context = {'glist': glist, 'n_glist': n_glist, 'gtype': gtype, 'gsort': gsort,'plist': plist, 'pIndex': pIndex,'show_searchbar':1}
     return render(request, 'tt_goods/list.html', context)
 
 
@@ -53,7 +54,8 @@ def detail(request, g_id):
     n_glist = GoodsInfo.objects.all()[count - 3:count]  # 取出最新三件商品
 
     gtype = TypeInfo.objects.filter(goodsinfo__id=g_id)  # 查询商品类型
-    context = {'goods': goods, 'n_glist': n_glist, 'gtype': gtype}
+
+    context = {'goods': goods, 'n_glist': n_glist, 'gtype': gtype, 'show_searchbar':1}
     response =  render(request, 'tt_goods/detail.html', context)
     # 存入cookie,记录浏览商品id----frank
     '''

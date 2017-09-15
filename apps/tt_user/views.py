@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from tt_goods.models import GoodsInfo
+
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
@@ -134,16 +135,24 @@ def user_center_order(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=int(user_id))
     user_name = user.uname
-    context = {'user_name1': user_name}
 
+    context = {'user_name1': user_name, 'sub_page_name': '用户中心'}
     return render(request, 'tt_user/user_center_order.html',context)
 
 def user_center_site(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=user_id)
     user_name = user.uname
+
     uad_li = UserAddressInfo.objects.filter(user=user).order_by('-pk')
-    context = {'user_name1': user_name,'recv_person':uad_li[0].uname, 'detailed_address':uad_li[0].uaddress, 'cell_phone':uad_li[0].uphone}
+    print(type(uad_li))
+    print(uad_li)
+    if not uad_li.exists():
+        context = {'user_name1': user_name, 'recv_person': '', 'sub_page_name': '用户中心',
+                   'detailed_address': '', 'cell_phone': ''}
+    else:
+        context = {'user_name1': user_name,'recv_person':uad_li[0].uname, 'sub_page_name': '用户中心',
+                   'detailed_address':uad_li[0].uaddress, 'cell_phone':uad_li[0].uphone}
     return render(request, 'tt_user/user_center_site.html', context)
 
 def logout(request):
@@ -192,7 +201,6 @@ def update_address(request):
 
     userAddr.save()
 
-    context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone}
-
+    context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone, 'sub_page_name': '用户中心'}
     return render(request,'tt_user/user_center_site.html',context)
 

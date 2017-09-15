@@ -11,7 +11,54 @@
     {%endblock head%}
 </head>
 <body>
+    <div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+                {% if xxx=='明天搞' %}
+				<div class="login_info fl">
+					欢迎您：<em>{{user_name1}}</em>
+					<span>|</span>
+					<a href="/user/login/" style="margin-left: 6px"> 退出</a>
+				</div>
+                {% else %}
+				<div class="login_btn fl">
+					<a href="/user/login/">登录</a>
+					<span>|</span>
+					<a href="/user/register/">注册</a>
+				</div>
+                {% endif %}
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="/user/user_center_info/">用户中心</a>
+					<span>|</span>
+					<a href="/cart/sp/">我的购物车</a>
+					<span>|</span>
+					<a href="/user/user_center_order/">我的订单</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<div class="search_bar clearfix">
+		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
+		{%if show_searchbar == 1%}
+		<div class="search_con fl">
+			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
+			<input type="button" class="input_btn fr" name="" value="搜索">
+		</div>
+		<div class="guest_cart fr">
+			<a href="../cart/sp" class="cart_name fl">我的购物车</a>
+			<div class="goods_count fl" id="show_count">0</div>
+		</div>
+		{%else%}
+		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;{{sub_page_name}}</div>
+		<div class="search_con fr">
+			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
+			<input type="button" class="input_btn fr" name="" value="搜索">
+		</div>
+		{%endif%}
+	</div>
 {%block body%}
 {%endblock body%}
 

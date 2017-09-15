@@ -1,7 +1,11 @@
-{% extends 'base.html' %}
-
-{%block head%}
-<title>天天生鲜-登录</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	<title>天天生鲜-登录</title>
     <script type="text/javascript">
         $(function () {
 
@@ -12,19 +16,19 @@
                 $('.name_input').val('{{ uname }}');
             }
 
-{#            $('.name_input').blur(function () {#}
-{#                console.log('---------');#}
-{#                var c = $('.jz');#}
-{#                if($(this).val() == '') {#}
-{#                    console.log('null');#}
-{#                    c.prop("checked",false);#}
-{#                }#}
-{#                else {#}
-{#                    console.log('not null');#}
-{#                    c.prop("checked",true);#}
-{#                }#}
-{##}
-{#            })#}
+            $('.name_input').blur(function () {
+                console.log('---------');
+                var c = $('.jz');
+                if($(this).val() == '') {
+                    console.log('null');
+                    c.prop("checked",false);
+                }
+                else {
+                    console.log('not null');
+                    c.prop("checked",true);
+                }
+
+            })
 
             $('.submit_form').submit(function () {
 
@@ -63,26 +67,23 @@
                 }
 
                 }
-{#                if(pwd.length != 0 || pwd.length == 0){#}
-{#                    $('.user_error').html('用户名为空').hide();#}
-{#                    $('.pwd_error').html('密码为空').show();#}
-{#                    return false;#}
-{#                }#}
-{#                if(name.length == 0 || pwd.length == 0){#}
-{#                    $('.pwd_error').html('密码为空').show();#}
-{#                    $('.user_error').html('用户名为空').show();#}
-{#                    return false;#}
-{#                }#}
+                if(pwd.length != 0 || pwd.length == 0){
+                    $('.user_error').html('用户名为空').hide();
+                    $('.pwd_error').html('密码为空').show();
+                    return false;
+                }
+                if(name.length == 0 || pwd.length == 0){
+                    $('.pwd_error').html('密码为空').show();
+                    $('.user_error').html('用户名为空').show();
+                    return false;
+                }
 
             })
         });
 
     </script>
-
-{%endblock head%}
-
-
-{%block body%}
+</head>
+<body>
 	<div class="login_top clearfix">
 		<a href="../tt_goods/index.html" class="login_logo"><img src="/static/images/logo02.png"></a>
 	</div>
@@ -97,6 +98,7 @@
 					<a href="/user/register/">立即注册</a>
 				</div>
 				<div class="form_input">
+
 					<form action="/user/login_handle/" method="post" class="submit_form">
 						<input type="text" name="username" class="name_input" value="" placeholder="请输入用户名">
 						<div class="user_error">输入错误</div>
@@ -114,5 +116,19 @@
 		</div>
 	</div>
 
+	<div class="footer no-mp">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>电话：010-****888    京ICP备*******8号</p>
+	</div>
+</body>
 
-{%endblock body%}
+</html>

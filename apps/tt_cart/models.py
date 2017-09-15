@@ -9,4 +9,3 @@ class CartInfo(models.Model):
     goods = models.ForeignKey(GoodsInfo)
     count = models.IntegerField()
 
-
