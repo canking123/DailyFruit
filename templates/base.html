@@ -15,11 +15,11 @@
 		<div class="header">
 			<div class="welcome fl">欢迎来到天天生鲜!</div>
 			<div class="fr">
-                {% if xxx=='明天搞' %}
-				<div class="login_info fl">
-					欢迎您：<em>{{user_name1}}</em>
+                {%if request.session.uid %}
+				<div class="login_btn fl">
+					欢迎您：<em>{{request.session.uname}}</em>
 					<span>|</span>
-					<a href="/user/login/" style="margin-left: 6px"> 退出</a>
+					<a href="/user/logout/" style="margin-left: 6px">退出</a>
 				</div>
                 {% else %}
 				<div class="login_btn fl">

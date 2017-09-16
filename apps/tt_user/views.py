@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 
 from tt_goods.models import GoodsInfo
 
+from apps.tt_user import user_decorators
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
@@ -48,11 +49,17 @@ def login(request):
     value = request.COOKIES.get('remember')
     if value is None:
         return render(request, 'tt_user/login.html')
+
     return render(request,'tt_user/login.html', {'uname': value})
 
 def login_handle(request):
+    if request.method == "GET":
+        return redirect('/user/login/')
+
+
     username = request.POST.get('username')
     pwd = request.POST.get('pwd')
+    uemail = request.POST.get('uemail')
 
     s1 = sha1()
     s1.update(pwd.encode())
@@ -68,48 +75,20 @@ def login_handle(request):
             # 定义error：2为密码错误
             return JsonResponse({'error': 2})
         else:
-            dict = request.POST
-            # 获取用户输入的姓名
-            username = dict.get('username')
-            # 获取用户输入的密码
-            pwd = dict.get('pwd')
-            uemail = dict.get('uemail')
 
-            remember_user = dict.get('remember', 0)  # 0 是给它设置的默认值
-
-            # print(remember_user)
-            try:
-                # uname是数据库中的字段，username是获取到的用户输入
-                user = UserInfo.objects.get(uname=username)
-                s1 = sha1()
-                s1.update(pwd.encode('utf8'))
-                pwd = s1.hexdigest()
-                # upwd是数据库中的字段，pwd是用户输入的密码，要对其进行加密后比较二者是否一样如果一样说明密码正确
-                if user.upwd != pwd or user.upwd is None:
-                    print('密码错误！请核对您的密码！')
-                    return render(request, 'tt_user/login.html', {'upwd_error': '密码为空，或者错误！'})
-
-            except Exception as e:
-                print(e)
-                return HttpResponse('用户名输入有误，请重新输入')
-                # return redirect('user/login_handle/')
-
+            remember_user = request.POST.get('remember', 0)  # 0 是给它设置的默认值
+            response = redirect(request.session.get('url_path','/user/user_center_info/'))
+            print('1: ', response.items())
+            if remember_user == '1':  # 注意  remember_user传过来的是一个字符串
+                response.set_cookie('remember', username, expires=7 * 24 * 60 * 60)
             else:
-                response = redirect('/user/user_center_info/')
-                if remember_user == '1':  # 注意  remember_user传过来的是一个字符串
-                    response.set_cookie('remember', username, expires=7 * 24 * 60 * 60)
-                else:
-                    response.set_cookie('remember', username, expires=-1)
+                response.set_cookie('remember', '', expires=-1)
 
-                request.session['uid'] = user.id
-                request.session['uname'] = username
+            request.session['uid'] = user.id
+            request.session['uname'] = username
+            return response
 
-
-                return response
-            # 定义error：0为没有错误
-            # return JsonResponse({'error': 0})
-            return render(request,'tt_user/user_center_info.html')
-
+@user_decorators.user_login
 def user_center_info(request):
      user_info= UserAddressInfo.objects.filter(user_id=int(request.session.get('uid'))).order_by('-pk')
      user_id = request.session.get('uid')
@@ -128,17 +107,18 @@ def user_center_info(request):
          cookie_id_list2 = cookie_id_list1[0:-1]
          goods_list = GoodsInfo.objects.filter(id__in=cookie_id_list2)
          #　传给模板　goods_list[0:5]
-     context = {'user_name1': user_name, 'user_info' : user_info,'goodslist':goods_list[0:5]}
+     context = {'user_name1': user_name, 'user_info' : user_info,'goodslist':goods_list[0:5], 'sub_page_name': '用户中心'}
      return render(request,'tt_user/user_center_info.html',context)
 
+@user_decorators.user_login
 def user_center_order(request):
     user_id = request.session.get('uid')
-    user = UserInfo.objects.get(id=int(user_id))
-    user_name = user.uname
+    user = UserInfo.objects.filter(id=int(user_id))
+    user_name = user[0].uname
+    context = {'user_name1': user_name, 'sub_page_name': '我的订单'}
+    return render(request, 'tt_user/user_center_order.html', context)
 
-    context = {'user_name1': user_name, 'sub_page_name': '用户中心'}
-    return render(request, 'tt_user/user_center_order.html',context)
-
+@user_decorators.user_login
 def user_center_site(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=user_id)
@@ -180,7 +160,7 @@ def active(request,uid):
 
 def islogin(request):
     result = 0
-    if request.session.has_key('uid'):
+    if 'uid' in request.session:
         result = 1
     return JsonResponse({'islogin':result})
 
