@@ -4,20 +4,25 @@ from django.db import transaction
 from .models import *
 from datetime import datetime
 from tt_user.models import *
-# Create your views here.
-def place_order(request):
-    useraddr = UserAddressInfo.objects.filter(user=33)
-    dict=request.GET
-    cid=dict.getlist('cid')#[1,3]
-    cart_list=CartInfo.objects.filter(id__in=cid)
+from tt_user.user_decorators import user_login
 
-    context={'clist':cart_list,'useraddr':useraddr, 'sub_page_name': '提交订单'}
+# Create your views here.
+@user_login
+def place_order(request):
+    u_id = request.session['uid']
+    u_addr= UserAddressInfo.objects.get(user_id=u_id)
+    dict =request.GET
+    cid  =dict.getlist('cid')#[1,3]
+    cart_list=CartInfo.objects.filter(id__in=cid)
+    addr = u_addr.uaddress
+    tel  = u_addr.uphone
+    name = u_addr.uname
+    context={'clist':cart_list,'addr':addr,'tel':tel,'name':name}
     return render(request,'tt_order/place_order.html',context)
 
 @transaction.atomic
 def do_order(request):
     cid=request.POST.getlist('cid')
-
     #开启事务
     sid=transaction.savepoint()
     #创建订单主表

@@ -10,7 +10,8 @@
 		<dl>
 			<dt>寄送到：</dt>
             {%for addrinfo in useraddr %}
-			<dd><input type="radio" name="" checked="" value="">{{ addrinfo.uaddress }} （{{ addrinfo.uname }} 收） {{ addrinfo.uphone }}</dd>
+			<dd><input type="radio" name="addr" checked="" value="{{ addr}} （{{ name }} 收） {{ tel }}">{{ addr }} （{{ name }} 收） {{ tel }}</dd>
+
             {% endfor %}
 		</dl>
 		<a href="user_center_site.html" class="edit_site">编辑收货地址</a>
