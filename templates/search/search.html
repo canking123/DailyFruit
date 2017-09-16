@@ -125,7 +125,6 @@
             <div class="new_goods">
                 <h3>新品推荐</h3>
                 <ul>
-
                     {% for GoodsData in n_glist %}
                         <li>
                             <a href="/detail/{{ GoodsData.id }}"><img src="/static/media/{{ GoodsData.gpic }}"></a>
@@ -133,8 +132,6 @@
                             <div class="prize">{{ GoodsData.gprice }}</div>
                         </li>
                     {% endfor %}
-
-
                 </ul>
             </div>
         </div>
@@ -147,30 +144,10 @@
                 <a href="/list/1/{{ gtype.0.id }}/2">人气</a>
             </div>
 
-{#        #}
-{#        #}
-            {% if query %}
-                <h3>搜索结果如下：</h3>
-                {% for result in page.object_list %}
-                    <a href="/{{ result.object.id }}/">{{ result.object.gtitle }}</a><br/>
-                {% empty %}
-                    <p>啥也没找到</p>
-                {% endfor %}
 
-                {% if page.has_previous or page.has_next %}
-                    <div>
-                        {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; 上一页{% if page.has_previous %}</a>{% endif %}
-                    |
-                        {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}下一页 &raquo;{% if page.has_next %}</a>{% endif %}
-                    </div>
-                {% endif %}
-            {% endif %}
-
-
-{#        #}
-{#        #}
             <ul class="goods_type_list clearfix">
             {% if query %}
+{#                商品显示部分#}
                 {% for GoodsData in page.object_list %}
                     <li>
                         <a href="/detail/{{ GoodsData.object.id }}"><img src="/static/media/{{ GoodsData.object.gpic }}"></a>
@@ -181,38 +158,26 @@
                             <a href="javascript:add_cart({{ GoodsData.object.id }})" class="add_goods" title="加入购物车"></a>
                         </div>
                     </li>
+                {% empty %}
+                <p>抱歉，没有查询到商品，要不你别来我家店了？</p>
                 {% endfor %}
-            {% endif %}
-{#                {% for GoodsData in glist %}#}
-{#                    <li>#}
-{#                        <a href="/detail/{{ GoodsData.id }}"><img src="/static/media/{{ GoodsData.gpic }}"></a>#}
-{#                        <h4><a href="/detail/{{ GoodsData.id }}">{{ GoodsData.gtitle }}</a></h4>#}
-{#                        <div class="operate">#}
-{#                            <span class="prize">{{ GoodsData.gprice }}</span>#}
-{#                            <span class="unit">16.80/{{ GoodsData.gunit }}</span>#}
-{#                            <a href="javascript:add_cart({{ GoodsData.id }})" class="add_goods" title="加入购物车"></a>#}
-{#                        </div>#}
-{#                    </li>#}
-{#                {% endfor %}#}
+{#                页码部分#}
+                {% if page.has_previous or page.has_next %}
+            <div class="pagenation">
+                {% if page.has_previous %}<a href="?q={{ query }}&page={{ page.previous_page_number }}">{% endif %}« 上一页{% if page.has_previous %}</a>{% endif %}
+                |
+                {% if page.has_next %}<a href="?q={{ query }}&page={{ page.next_page_number }}">{% endif %}下一页 »{% if page.has_next %}</a>{% endif %}
+            </div>
+        {% endif %}
 
+            {% endif %}
 
             </ul>
+            <br>
+            <br>
+            <br>
+            <br>
 
-
-            <div class="pagenation">
-                <a href="/list/{{ pIndex.prepage }}/{{ gtype.0.id }}/{{ gsort.num }}" id="prepage">上一页</a>
-
-                {%for pindex in plist%}
-                    {%if pIndex.page == pindex%}
-                    {{pindex}}&nbsp;&nbsp;
-                    {%else%}
-                    <a href="/list/{{pindex}}/{{ gtype.0.id }}/{{ gsort.num }}">{{pindex}}</a>&nbsp;&nbsp;
-                    {%endif%}
-                {%endfor%}
-
-
-                <a href="/list/{{ pIndex.nextpage }}/{{ gtype.0.id }}/{{ gsort.num }}">下一页></a>
-            </div>
         </div>
     </div>
 
