@@ -5,19 +5,20 @@
     <script>
 
         $(function () {
-            $atip = $('.sort_bar a');
-            xxx ={{ gsort }};
-            if (xxx == 0) {
-                $atip.eq(0).addClass('active').siblings().removeClass('active');
-            }
-            else if (xxx == 1) {
-                $atip.eq(1).addClass('active').siblings().removeClass('active');
-            }
-            else if (xxx == 2) {
-                $atip.eq(2).addClass('active').siblings().removeClass('active');
-            }
+{#            标题栏选中效果#}
+            $title_tip = $('.sort_bar a');
+            ttip ={{ gsort.num }};
+            $title_tip.eq(ttip).addClass('active').siblings().removeClass('active');
+{#            页码选中效果#}
+            $page_tip = $('.pagenation a');
+            ptip ={{ pIndex.page }}-1;
+            $page_tip.eq(ptip).addClass('active').siblings().removeClass('active');
 
 
+{#            $('#prepage').click(function () {#}
+{#                aaa = {{ pIndex.page }}-1;#}
+{#                {{ pIndex.aa }}=aaa#}
+            })
         });
 
         function add_cart(gid) {
@@ -49,54 +50,18 @@
 
 
 {% block body %}
-    <div class="header_con">
-        <div class="header">
-            <div class="welcome fl">欢迎来到天天生鲜!</div>
-            <div class="fr">
-                <div class="login_info fl">
-                    欢迎您：<em>张 山</em>
-                </div>
-                <div class="login_btn fl">
-                    <a href="../user/login">登录</a>
-                    <span>|</span>
-                    <a href="../user/register">注册</a>
-                </div>
-                <div class="user_link fl">
-                    <span>|</span>
-                    <a href="../user/user_center_info">用户中心</a>
-                    <span>|</span>
-                    <a href="../cart/sp">我的购物车</a>
-                    <span>|</span>
-                    <a href="../user/user_center_order">我的订单</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="search_bar clearfix">
-        <a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
-        <div class="search_con fl">
-            <input type="text" class="input_text fl" name="" placeholder="搜索商品">
-            <input type="button" class="input_btn fr" name="" value="搜索">
-        </div>
-        <div class="guest_cart fr">
-            <a href="../cart/sp" class="cart_name fl">我的购物车</a>
-            <div class="goods_count fl" id="show_count">0</div>
-        </div>
-    </div>
-
     <div class="navbar_con">
         <div class="navbar clearfix">
             <div class="subnav_con fl">
                 <h1>全部商品分类</h1>
                 <span></span>
                 <ul class="subnav">
-                    <li><a href="../1" class="fruit">新鲜水果</a></li>
-                    <li><a href="../2" class="seafood">海鲜水产</a></li>
-                    <li><a href="../3" class="meet">猪牛羊肉</a></li>
-                    <li><a href="../4" class="egg">禽类蛋品</a></li>
-                    <li><a href="../5" class="vegetables">新鲜蔬菜</a></li>
-                    <li><a href="../6" class="ice">速冻食品</a></li>
+                    <li><a href="/list/1/1" class="fruit">新鲜水果</a></li>
+                    <li><a href="/list/1/2" class="seafood">海鲜水产</a></li>
+                    <li><a href="/list/1/3" class="meet">猪牛羊肉</a></li>
+                    <li><a href="/list/1/4" class="egg">禽类蛋品</a></li>
+                    <li><a href="/list/1/5" class="vegetables">新鲜蔬菜</a></li>
+                    <li><a href="/list/1/6" class="ice">速冻食品</a></li>
                 </ul>
             </div>
             <ul class="navlist fl">
@@ -110,7 +75,7 @@
     </div>
 
     <div class="breadcrumb">
-        <a href="../100">全部分类</a>
+        <a href="/list/1/100/0">全部分类</a>
         <span>></span>
         <a href="#">{{ gtype.0.ttitle }}</a>
     </div>
@@ -135,9 +100,10 @@
 
         <div class="r_wrap fr clearfix">
             <div class="sort_bar">
-                <a href="/list/{{ gtype.0.id }}/0" class="active">默认</a>
-                <a href="/list/{{ gtype.0.id }}/1">价格</a>
-                <a href="/list/{{ gtype.0.id }}/2">人气</a>
+{#                list/页码/类型/排序方式/#}
+                <a href="/list/1/{{ gtype.0.id }}/0" class="active">默认</a>
+                <a href="/list/1/{{ gtype.0.id }}/1">价格</a>
+                <a href="/list/1/{{ gtype.0.id }}/2">人气</a>
             </div>
 
             <ul class="goods_type_list clearfix">
@@ -156,16 +122,20 @@
 
             </ul>
 
+
             <div class="pagenation">
-                <a href="#">
-                    上一页
-                </a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">下一页></a>
+{#                <a href="/list/{{ pIndex.aa }}/{{ gtype.0.id }}/{{ gsort.num }}" id="prepage">上一页</a>#}
+
+                {%for pindex in plist%}
+                    {%if pIndex.page == pindex%}
+                    {{pindex}}&nbsp;&nbsp;
+                    {%else%}
+                    <a href="/list/{{pindex}}/{{ gtype.0.id }}/{{ gsort.num }}">{{pindex}}</a>&nbsp;&nbsp;
+                    {%endif%}
+                {%endfor%}
+
+
+{#                <a href="/list/{{ pIndex.page }}/{{ gtype.0.id }}/{{ gsort.num }}">下一页></a>#}
             </div>
         </div>
     </div>

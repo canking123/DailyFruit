@@ -9,11 +9,9 @@ from tt_user.user_decorators import user_login
 @user_login
 def cart(request):
     cart_list = CartInfo.objects.filter(user_id=int(request.session['uid']))
-    context = {'title': '购物车', 'cart_list': cart_list}
+
+    context = {'title': '购物车', 'cart_list': cart_list, 'sub_page_name': '购物车'}
     return render(request, 'tt_cart/cart.html', context)
-
-
-
 
 def add(request):
     dict = request.GET
@@ -54,7 +52,6 @@ def calc_count(uid):
     else:
         return c.get('count__sum')
 
-
 def add_count(request):
     dict = request.GET
     add_id = dict.get('add_id')
@@ -62,7 +59,6 @@ def add_count(request):
     cart.count += 1
     cart.save()
     return JsonResponse({'isok': 1})
-
 
 def minus_count(request):
     dict = request.GET
@@ -84,7 +80,6 @@ def change_count(request):
     cart.count = count
     cart.save()
     return JsonResponse({'isok': 1})
-
 
 def del_cart(request):
     try:
