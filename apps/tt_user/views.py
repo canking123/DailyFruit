@@ -1,6 +1,8 @@
 from hashlib import sha1
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from apps.tt_user import user_decorators
+from tt_goods.models import GoodsInfo
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
@@ -42,57 +44,92 @@ def add_user(request):
     return redirect('/user/login')
 
 def login(request):
-    return render(request,'tt_user/login.html')
+    value = request.COOKIES.get('remember')
+    if value is None:
+        return render(request, 'tt_user/login.html')
+
+    return render(request,'tt_user/login.html', {'uname': value})
 
 def login_handle(request):
-    dict = request.POST
-    # 获取用户输入的姓名
-    username = dict.get('username')
-    # 获取用户输入的密码
-    pwd = dict.get('pwd')
-    uemail = dict.get('uemail')
-    try:
-        # uname是数据库中的字段，username是获取到的用户输入
-        user = UserInfo.objects.get(uname=username)
-        s1 = sha1()
-        s1.update(pwd.encode('utf8'))
-        pwd = s1.hexdigest()
-        # upwd是数据库中的字段，pwd是用户输入的密码，要对其进行加密后比较二者是否一样如果一样说明密码正确
-        if user.upwd != pwd:
-            print('密码错误！请核对您的密码！')
-    except Exception as e:
-        print(e)
-        return HttpResponse('用户名输入有误，请重新输入')
-        # return redirect('user/login_handle/')
+    if request.method == "GET":
+        return redirect('/user/login/')
+
+    username = request.POST.get('username')
+    pwd = request.POST.get('pwd')
+    uemail = request.POST.get('uemail')
+
+    s1 = sha1()
+    s1.update(pwd.encode())
+    pwd_sha1 = s1.hexdigest()
+
+    count = UserInfo.objects.filter(uname=username).count()
+    if count == 0:
+        # 定义error：1为用户名错误
+        return JsonResponse({'error': 1})
     else:
-        # session_list = []
-        request.session['uid'] = user.id
+        user = UserInfo.objects.get(uname=username)
+        if user.upwd != pwd_sha1:
+            # 定义error：2为密码错误
+            return JsonResponse({'error': 2})
+        else:
 
-        # session_list.append(user.id)
-        # return render(request,'tt_user/user_center_info.html')
-        return redirect('/user/user_center_info')
+            remember_user = request.POST.get('remember', 0)  # 0 是给它设置的默认值
+            response = redirect(request.session.get('url_path','/user/user_center_info/'))
+            print('1: ', response.items())
+            if remember_user == '1':  # 注意  remember_user传过来的是一个字符串
+                response.set_cookie('remember', username, expires=7 * 24 * 60 * 60)
+            else:
+                response.set_cookie('remember', '', expires=-1)
 
+            request.session['uid'] = user.id
+            request.session['uname'] = username
+            return response
+
+@user_decorators.user_login
 def user_center_info(request):
-    user_id = request.session.get('uid')
-    user = UserInfo.objects.get(id=int(user_id))
-    user_name = user.uname
-    context = {'user_name1':user_name}
-    return render(request,'tt_user/user_center_info.html',context)
-    # return redirect('/user/user_center_info/')
+     user_info= UserAddressInfo.objects.filter(user_id=int(request.session.get('uid'))).order_by('-pk')
+     user_id = request.session.get('uid')
+     user = UserInfo.objects.get(id=user_id)
+     user_name = user.uname
+     #取cookie,ｋey为goodsid,'_270_268'
+     cookie_id_list = request.COOKIES.get('goodsid'+str(user_id))
+     if cookie_id_list is None:
+         goods_list = []
 
+     else:
+         #截取字符串，split('_')
+         cookie_id_list1 = cookie_id_list.split('_')
+         # ['',270,280].reverse()
+         cookie_id_list1.reverse()
+         cookie_id_list2 = cookie_id_list1[0:-1]
+         goods_list = GoodsInfo.objects.filter(id__in=cookie_id_list2)
+         #　传给模板　goods_list[0:5]
+     context = {'user_name1': user_name, 'user_info' : user_info,'goodslist':goods_list[0:5], 'sub_page_name': '用户中心'}
+     return render(request,'tt_user/user_center_info.html',context)
+
+@user_decorators.user_login
 def user_center_order(request):
     user_id = request.session.get('uid')
-    user = UserInfo.objects.get(id=int(user_id))
-    user_name = user.uname
-    context = {'user_name1': user_name}
-    return render(request, 'tt_user/user_center_order.html',context)
+    user = UserInfo.objects.filter(id=int(user_id))
+    user_name = user[0].uname
+    context = {'user_name1': user_name, 'sub_page_name': '我的订单'}
+    return render(request, 'tt_user/user_center_order.html', context)
 
+@user_decorators.user_login
 def user_center_site(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=user_id)
     user_name = user.uname
-    context = {'user_name1': user_name}
-    return render(request, 'tt_user/user_center_site.html',context)
+    uad_li = UserAddressInfo.objects.filter(user=user).order_by('-pk')
+    print(type(uad_li))
+    print(uad_li)
+    if not uad_li.exists():
+        context = {'user_name1': user_name, 'recv_person': '', 'sub_page_name': '用户中心',
+                   'detailed_address': '', 'cell_phone': ''}
+    else:
+        context = {'user_name1': user_name,'recv_person':uad_li[0].uname, 'sub_page_name': '用户中心',
+                   'detailed_address':uad_li[0].uaddress, 'cell_phone':uad_li[0].uphone}
+    return render(request, 'tt_user/user_center_site.html', context)
 
 def logout(request):
     del request.session['uid']
@@ -117,21 +154,27 @@ def active(request,uid):
     user.save()
     return HttpResponse('激活成功，<a href="/user/login/">点击登录</a>')
 
-
 def islogin(request):
     result = 0
-    if request.session.has_key('uid'):
+    if 'uid' in request.session:
         result = 1
     return JsonResponse({'islogin':result})
 
-
-
 def update_address(request):
     dict = request.GET
+    uid = request.session['uid']
     recvPerson = dict.get('recv_person')
+
     address = dict.get('detailed_address')
     postAddress = dict.get('post_address')
     phone = dict.get('cell_phone')
-    context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone}
+
+    userAddr = UserAddressInfo()
+    userAddr.uaddress = address
+    userAddr.uphone = phone
+    userAddr.user_id = uid
+    userAddr.uname = recvPerson
+    userAddr.save()
+    context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone, 'sub_page_name': '用户中心'}
     return render(request,'tt_user/user_center_site.html',context)
 
