@@ -17,7 +17,7 @@ def index(request):
     return render(request, 'tt_goods/index.html', context)
 
 
-def list(request, pindex,l_id, l_sort):
+def list(request, pindex, l_id, l_sort):
     if (l_id == '100'):
         glist = GoodsInfo.objects.all()  # 全部商品
     else:
@@ -30,7 +30,7 @@ def list(request, pindex,l_id, l_sort):
     elif (l_sort == '2'):
         glist = glist.order_by('gclick')
 
-    gsort = {'num': l_sort}# 排序方式
+    gsort = {'num': l_sort}  # 排序方式
     gtype = TypeInfo.objects.filter(id=l_id)  # 一类商品的类型
 
     count = GoodsInfo.objects.count()  # 总数
@@ -39,12 +39,26 @@ def list(request, pindex,l_id, l_sort):
 
     p = Paginator(glist, 15)
 
+<<<<<<< HEAD
 
     pIndex={'page':pindex,'prepage':int(pindex)-1,'nextpage':int(pindex)+1}#传入的页码
+=======
+    if (p.page(int(pindex)).has_next()):
+        nextpage = int(pindex) + 1
+    else:
+        nextpage = int(pindex)
+
+    if (p.page(int(pindex)).has_previous()):
+        prepage = int(pindex) - 1
+    else:
+        prepage = int(pindex)
+
+    pIndex = {'page': pindex, 'prepage': prepage, 'nextpage': nextpage}  # 传入的页码
+>>>>>>> nsaviour
     glist = p.page(int(pindex))
     plist = p.page_range
 
-    context = {'glist': glist, 'n_glist': n_glist, 'gtype': gtype, 'gsort': gsort,'plist': plist, 'pIndex': pIndex}
+    context = {'glist': glist, 'n_glist': n_glist, 'gtype': gtype, 'gsort': gsort, 'plist': plist, 'pIndex': pIndex}
     return render(request, 'tt_goods/list.html', context)
 
 
@@ -62,4 +76,3 @@ def detail(request, g_id):
 # paginator：分页paginator对象
 # def sreach(request,query):
 #     return render(request,'search/in')
-
