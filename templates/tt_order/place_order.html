@@ -43,7 +43,8 @@
 		<dl>
 			<dt>寄送到：</dt>
             {%for addrinfo in useraddr %}
-			<dd><input type="radio" name="" checked="" value="">{{ addrinfo.uaddress }} （{{ addrinfo.uname }} 收） {{ addrinfo.uphone }}</dd>
+			<dd><input type="radio" name="addr" checked="" value="{{ addr}} （{{ name }} 收） {{ tel }}">{{ addr }} （{{ name }} 收） {{ tel }}</dd>
+
             {% endfor %}
 		</dl>
 		<a href="user_center_site.html" class="edit_site">编辑收货地址</a>
@@ -103,19 +104,6 @@
 		<input type="submit" value="提交订单"/>
 	</div>	
 </form>
-	<div class="footer">
-		<div class="foot_link">
-			<a href="#">关于我们</a>
-			<span>|</span>
-			<a href="#">联系我们</a>
-			<span>|</span>
-			<a href="#">招聘人才</a>
-			<span>|</span>
-			<a href="#">友情链接</a>		
-		</div>
-		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
-	</div>
 
 	<div class="popup_con">
 		<div class="popup">

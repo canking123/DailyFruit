@@ -4,14 +4,22 @@ from django.db import transaction
 from .models import *
 from datetime import datetime
 from tt_user.models import *
+from tt_user.user_decorators import *
+
 # Create your views here.
+@user_login
 def place_order(request):
-    useraddr = UserAddressInfo.objects.filter(user=33)
-    dict=request.GET
-    cid=dict.getlist('cid')#[1,3]
+    u_id = request.session.get('uid','')
+    u_addr= UserAddressInfo.objects.get(user_id=u_id)
+    dict =request.GET
+    cid  =dict.getlist('cid')#[1,3]
     cart_list=CartInfo.objects.filter(id__in=cid)
-    context={'clist':cart_list,'useraddr':useraddr}
+    addr = u_addr.uaddress
+    tel  = u_addr.uphone
+    name = u_addr.uname
+    context={'clist':cart_list,'addr':addr,'tel':tel,'name':name}
     return render(request,'tt_order/place_order.html',context)
+
 
 @transaction.atomic
 def do_order(request):
