@@ -2,46 +2,59 @@
 {%block head%}
 	<title>天天生鲜-购物车</title>
     <script>
-      $(function () {
-          $('#check_all').click(function () {
+        $(function () {
+            $('#check_all').click(function () {
                 $(':checkbox:not(#check_all)').prop('checked',$('#check_all').prop('checked'));
-                total_all();
-            })
+                if ($(this).prop('checked')){
+                   total_all(1);
+
+                }else{
+                   total_all(2);
+                }
+
+            });
 
             $(':checkbox:not(#check_all)').click(function () {
                 var checkbox_count=$(':checkbox:not(#check_all)').length;
                 var checked_count = $(':checked:not(#check_all)').length;
                 $('#check_all').prop('checked',checkbox_count==checked_count);
-                total_all();
-            })
+                if ($(this).prop('checked')){
+                    var total_res= parseInt($('.settlements b').text())+parseInt($(this).parents('ul').find('.num_show').val());
+                   $('.settlements b').text(total_res);
 
-          $('.add').click(function () {
+                }else{
+                   var total_res= parseInt($('.settlements b').text())-parseInt($(this).parents('ul').find('.num_show').val());
+                   $('.settlements b').text(total_res);
+                }
+                total_all(0);
+            });
+
+            $('.add').click(function () {
 
                 var count = $(this).next().val();
                 var kucun = parseInt($(this).parents('.cart_list_td').children().find('em').text());
                 if(count < kucun)
                 {
                     count++;
-                    $(this).next().val(count)
-                    total_all();
+                    $(this).next().val(count);
+                    total_all(0);
                 }
                 $.get('/cart/add_count/',{'add_id':$(this).parents('.cart_list_td').prop('id')})
-            })
+            });
 
-
-           $('.minus').click(function () {
+            $('.minus').click(function () {
                 var count = $(this).prev().val();
                 if(count >1)
                 {
                     count--;
-                    $(this).prev().val(count)
-                    total_all();
+                    $(this).prev().val(count);
+                    total_all(0);
 
                 }
                 $.get('/cart/minus_count/',{'minus_id':$(this).parents('.cart_list_td').prop('id')})
-            })
+            });
 
-          $('.num_show').keyup(function () {
+            $('.num_show').keyup(function () {
                 var kucun = parseInt($(this).parents('.cart_list_td').children().find('em').text());
                 var count = parseInt($(this).val());
                 if(count <=0 || isNaN(count))
@@ -54,17 +67,45 @@
                     $(this).val(kucun)
                 }
                 count=$(this).val();
-                total_all();
+                total_all(0);
                 $.get('/cart/change_count/',{'change_id':$(this).parents('.cart_list_td').prop('id'),'count':count})
-            })
+            });
+
+
+            total_all(1);
+
+      })
 
 
 
+        function cart_del(cid) {
 
-          total_all();
+                if(confirm('确定要删除吗？')) {
+                $.get('/cart/del_cart/',{'cid':cid},function (data) {
+                    if(data.isdelete==1)
+                    {
+                        $('#'+cid).remove();
+                         total_all(1);
+                    }
+                });
+
+                }
+            }
+
            //小计和总价
-          function total_all() {
-              $('.total_count em').text($('.cart_list_td').length)
+      function total_all(num) {
+            var $checked_len = $(':checked:not(#check_all)').length;
+            $('.total_count em').text($('.cart_list_td').length );
+
+            if(num == 1){
+                   $.get('/cart/count/',function (data) {
+                     $('.settlements b').text(data.count);
+                });
+            }else if(num ==2){
+                   $('.settlements b').text(0);
+            }
+
+
               var total = 0
               $('.cart_list_td').each(function () {
                 var price = parseFloat($(this).find('span').text());
@@ -77,26 +118,11 @@
 
                 $(this).children('.col07').html(total1.toFixed(2)+'元')
 
-
             })
+
             $('.settlements em').text(total.toFixed(2)+'元');
-            $('.settlements b').text($(':checked:not(#check_all)').length)
-        }
-
-      })
 
 
-      function cart_del(cid) {
-            if(confirm('确定要删除吗？'))
-            {
-                $.get('/cart/del_cart/',{'cid':cid},function (data) {
-                if(data.isdelete==1)
-                {
-                    $('#'+cid).remove();
-                    total_all();
-                }
-            })
-            }
         }
 
     </script>
@@ -135,7 +161,7 @@
 		</div>		
 	</div>
 <form method="post" action="/order/place_order/">
-	<div class="total_count">全部商品<em>2</em>件</div>	
+	<div class="total_count">全部商品<em></em>件</div>
 	<ul class="cart_list_th clearfix">
 		<li class="col01">商品名称</li>
 		<li class="col02">商品单位</li>

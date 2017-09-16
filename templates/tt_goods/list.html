@@ -5,6 +5,7 @@
     <script>
 
         $(function () {
+
             $atip = $('.sort_bar a');
             xxx ={{ gsort }};
             if (xxx == 0 && xxx=='') {
@@ -49,7 +50,8 @@
 
 
 {% block body %}
-    <div class="header_con">
+
+            <div class="header_con">
         <div class="header">
             <div class="welcome fl">欢迎来到天天生鲜!</div>
             <div class="fr">
@@ -65,7 +67,7 @@
                     <span>|</span>
                     <a href="../user/user_center_info">用户中心</a>
                     <span>|</span>
-                    <a href="../cart/sp">我的购物车</a>
+                    <a href="/cart/sp">我的购物车</a>
                     <span>|</span>
                     <a href="../user/user_center_order">我的订单</a>
                 </div>
@@ -80,10 +82,11 @@
             <input type="button" class="input_btn fr" name="" value="搜索">
         </div>
         <div class="guest_cart fr">
-            <a href="../cart/sp" class="cart_name fl">我的购物车</a>
+            <a href="/cart/sp" class="cart_name fl">我的购物车</a>
             <div class="goods_count fl" id="show_count">0</div>
         </div>
     </div>
+
 
     <div class="navbar_con">
         <div class="navbar clearfix">

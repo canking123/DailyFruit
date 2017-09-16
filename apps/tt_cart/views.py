@@ -87,6 +87,7 @@ def change_count(request):
 
 def del_cart(request):
     try:
+
         cid = request.GET.get('cid')
         cart = CartInfo.objects.get(pk=cid)
         cart.delete()
