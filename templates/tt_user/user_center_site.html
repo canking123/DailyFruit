@@ -16,8 +16,8 @@
 	
 	function checkRecv_person() {
         var len = $('.recv_person').val().length;
-		if(len<3||len>20||len===0) {
-            alert('请输入3-20个字符的用户名');
+		if(len<2||len>20||len===0) {
+            alert('请输入2-20个字符的用户名');
             error_recv_person = true;
         }else{
             error_recv_person = false;
