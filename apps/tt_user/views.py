@@ -1,10 +1,8 @@
 from hashlib import sha1
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-
-from tt_goods.models import GoodsInfo
-
 from apps.tt_user import user_decorators
+from tt_goods.models import GoodsInfo
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
@@ -55,7 +53,6 @@ def login(request):
 def login_handle(request):
     if request.method == "GET":
         return redirect('/user/login/')
-
 
     username = request.POST.get('username')
     pwd = request.POST.get('pwd')
@@ -123,7 +120,6 @@ def user_center_site(request):
     user_id = request.session.get('uid')
     user = UserInfo.objects.get(id=user_id)
     user_name = user.uname
-
     uad_li = UserAddressInfo.objects.filter(user=user).order_by('-pk')
     print(type(uad_li))
     print(uad_li)
@@ -178,9 +174,7 @@ def update_address(request):
     userAddr.uphone = phone
     userAddr.user_id = uid
     userAddr.uname = recvPerson
-
     userAddr.save()
-
     context = {'recv_person':recvPerson, 'detailed_address':address, 'cell_phone':phone, 'sub_page_name': '用户中心'}
     return render(request,'tt_user/user_center_site.html',context)
 

@@ -54,7 +54,6 @@ def detail(request, g_id):
     n_glist = GoodsInfo.objects.all()[count - 3:count]  # 取出最新三件商品
 
     gtype = TypeInfo.objects.filter(goodsinfo__id=g_id)  # 查询商品类型
-
     context = {'goods': goods, 'n_glist': n_glist, 'gtype': gtype, 'show_searchbar':1}
     response =  render(request, 'tt_goods/detail.html', context)
     # 存入cookie,记录浏览商品id----frank
@@ -71,3 +70,4 @@ def detail(request, g_id):
     product_id = product_id +'_' + g_id
     response.set_cookie('goodsid'+str(user_session_id),product_id,expires=5*24*60*60)
     return response
+

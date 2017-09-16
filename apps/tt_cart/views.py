@@ -9,7 +9,6 @@ from tt_user.user_decorators import user_login
 @user_login
 def cart(request):
     cart_list = CartInfo.objects.filter(user_id=int(request.session['uid']))
-
     context = {'title': '购物车', 'cart_list': cart_list, 'sub_page_name': '购物车'}
     return render(request, 'tt_cart/cart.html', context)
 

@@ -7,12 +7,7 @@
 
         var str = '{{ detailed_address }} （{{ recv_person }} 收） {{ cell_phone }}';
         $('.add_con').html(str);
-{#        $('.info_submit').submit(function () {#}
-{#            checkRecv_person();#}
-{#            checkPost_address();#}
-{#            checkSite_area();#}
-{#            checkCell_phone();#}
-{#        })#}
+
         var error_recv_person = false;
         var error_post_address = false;
         var error_cell_phone = false;
@@ -80,11 +75,11 @@
     });
 });
 
-
 </script>
 {%endblock head%}
 
 {% block body %}
+
 	<div class="main_con clearfix">
 		<div class="left_menu_con clearfix">
 			<h3>用户中心</h3>
@@ -120,7 +115,6 @@
 						<div class="form_group">
 							<label>手机：</label>
 							<input type="text" name="cell_phone" placeholder="请输入11位数字的手机号码" class="cell_phone">
-
 						</div>
 
 						<input type="submit" name="" value="提交" class="info_submit">
