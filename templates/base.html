@@ -62,6 +62,13 @@
             </form>
         </div>
 		{%endif%}
+        <script>
+        if($('.login_btn').text().indexOf('登录')==-1){
+            $.get('/cart/count/',function (data) {
+                $('#show_count').text(data.count);
+            });
+        }
+        </script>
 	</div>
 {%block body%}
 
