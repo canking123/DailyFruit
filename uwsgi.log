@@ -681,3 +681,53 @@ spawned uWSGI worker 1 (pid: 10416, cores: 2)
 spawned uWSGI worker 2 (pid: 10417, cores: 2)
 spawned uWSGI worker 3 (pid: 10419, cores: 2)
 spawned uWSGI worker 4 (pid: 10420, cores: 2)
+*** Starting uWSGI 2.0.15 (32bit) on [Tue Sep 19 21:19:23 2017] ***
+compiled with version: 4.9.2 on 15 September 2017 19:07:14
+os: Linux-4.9.47-v7+ #1033 SMP Mon Sep 4 21:48:16 BST 2017
+nodename: NS
+machine: armv7l
+clock source: unix
+detected number of CPU cores: 4
+current working directory: /home/NSaviour/DjangoProject/DailyFruit
+writing pidfile to uwsgi.pid
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/NSaviour/DjangoProject/DailyFruit
+your processes number limit is 7742
+your memory page size is 4096 bytes
+detected max file descriptor number: 65536
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8090 fd 3
+Python version: 3.4.2 (default, Oct 19 2014, 14:03:53)  [GCC 4.9.1]
+Python main interpreter initialized at 0x1969938
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 358400 bytes (350 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 4 seconds on interpreter 0x1969938 pid: 4979 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 4979)
+spawned uWSGI worker 1 (pid: 4981, cores: 2)
+spawned uWSGI worker 2 (pid: 4982, cores: 2)
+spawned uWSGI worker 3 (pid: 4984, cores: 2)
+spawned uWSGI worker 4 (pid: 4985, cores: 2)
+[pid: 4984|app: 0|req: 1/1] 192.168.64.76 () {42 vars in 931 bytes} [Tue Sep 19 21:19:29 2017] GET / => generated 13179 bytes in 3407 msecs (HTTP/1.1 200) 4 headers in 233 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 1/2] 192.168.64.76 () {42 vars in 956 bytes} [Tue Sep 19 21:19:38 2017] GET /detail/28 => generated 11432 bytes in 1341 msecs (HTTP/1.1 200) 5 headers in 354 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 2/3] 192.168.64.76 () {42 vars in 898 bytes} [Tue Sep 19 21:19:42 2017] GET /user/islogin/ => generated 14 bytes in 69 msecs (HTTP/1.1 200) 3 headers in 94 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 3/4] 192.168.64.76 () {42 vars in 972 bytes} [Tue Sep 19 21:19:44 2017] GET /user/login/ => generated 4735 bytes in 18 msecs (HTTP/1.1 200) 2 headers in 88 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 4/5] 192.168.64.76 () {42 vars in 1000 bytes} [Tue Sep 19 21:20:03 2017] GET /user/tt_goods/index.html => generated 98 bytes in 40 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 5/6] 192.168.64.76 () {42 vars in 1000 bytes} [Tue Sep 19 21:20:19 2017] GET /user/tt_goods/index.html => generated 98 bytes in 22 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 6/7] 192.168.64.76 () {42 vars in 1000 bytes} [Tue Sep 19 21:20:28 2017] GET /user/tt_goods/index.html => generated 98 bytes in 22 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 7/8] 192.168.64.76 () {42 vars in 1000 bytes} [Tue Sep 19 21:20:34 2017] GET /user/tt_goods/index.html => generated 98 bytes in 22 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 8/9] 192.168.64.76 () {42 vars in 959 bytes} [Tue Sep 19 21:20:39 2017] GET /detail/28 => generated 11432 bytes in 237 msecs (HTTP/1.1 200) 5 headers in 357 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 9/10] 192.168.64.76 () {42 vars in 953 bytes} [Tue Sep 19 21:20:41 2017] GET / => generated 13179 bytes in 1842 msecs (HTTP/1.1 200) 4 headers in 233 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 10/11] 192.168.64.76 () {42 vars in 990 bytes} [Tue Sep 19 21:20:47 2017] GET /user/user_center_order/ => generated 0 bytes in 110 msecs (HTTP/1.1 302) 5 headers in 281 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 11/12] 192.168.64.76 () {42 vars in 966 bytes} [Tue Sep 19 21:20:47 2017] GET /user/login/ => generated 4735 bytes in 11 msecs (HTTP/1.1 200) 2 headers in 88 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 12/13] 192.168.64.76 () {42 vars in 1003 bytes} [Tue Sep 19 21:20:49 2017] GET /user/tt_goods/index.html => generated 98 bytes in 22 msecs (HTTP/1.1 404) 2 headers in 80 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 13/14] 192.168.64.76 () {42 vars in 983 bytes} [Tue Sep 19 21:20:52 2017] GET /user/register/ => generated 2469 bytes in 12 msecs (HTTP/1.1 200) 2 headers in 88 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 14/15] 192.168.64.76 () {44 vars in 1014 bytes} [Tue Sep 19 21:33:30 2017] GET /user/register/ => generated 2469 bytes in 12 msecs (HTTP/1.1 200) 2 headers in 88 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 15/16] 192.168.64.76 () {42 vars in 980 bytes} [Tue Sep 19 21:33:32 2017] GET /user/login/ => generated 4735 bytes in 17 msecs (HTTP/1.1 200) 2 headers in 88 bytes (1 switches on core 0)
+[pid: 4985|app: 0|req: 16/17] 192.168.64.76 () {40 vars in 906 bytes} [Tue Sep 19 21:33:40 2017] GET / => generated 13179 bytes in 257 msecs (HTTP/1.1 200) 4 headers in 233 bytes (1 switches on core 1)
+[pid: 4985|app: 0|req: 17/18] 192.168.64.76 () {42 vars in 937 bytes} [Tue Sep 19 21:40:42 2017] GET / => generated 13179 bytes in 252 msecs (HTTP/1.1 200) 4 headers in 233 bytes (1 switches on core 0)
