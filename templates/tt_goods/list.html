@@ -3,8 +3,9 @@
 {% block head %}
     <title>天天生鲜-商品列表</title>
     <script>
-
+         var clicktag = 0;
         $(function () {
+
 
 {#            标题栏选中效果#}
             $title_tip = $('.sort_bar a');
@@ -19,8 +20,10 @@
         });
 
         function add_cart(gid) {
-
-            $.get('/user/islogin',function (data) {
+            if(clicktag == 0){
+                clicktag = 1;
+                setTimeout(function () { clicktag = 0 }, 1000);
+                $.get('/user/islogin',function (data) {
                 if(data.islogin==1)
                 {
                     $.get('/cart/add/',{'gid':gid,'count':1},function (data) {
@@ -44,6 +47,13 @@
 
                 }
             })
+
+
+            }else{
+
+                alert('请勿频繁点击');
+            }
+
 
         }
 

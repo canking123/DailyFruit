@@ -17,7 +17,6 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ SECRET_KEY = 'haxp(mlj=40zn-s3rcf7kari^7evxboi6r%m+!0y%%swf6&zl2'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -43,8 +41,8 @@ INSTALLED_APPS = (
     'tt_goods',
     'tt_cart',
     'tt_order',
-    'tinymce',#富文本编辑器
-    'haystack',#全文检索
+    'tinymce',  # 富文本编辑器
+    'haystack',  # 全文检索
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DailyFruit.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -91,10 +88,9 @@ DATABASES = {
         'HOST': '192.168.64.254',
         'PORT': '3306',
         'USER': 'py',
-        'PASSWORD':'12345679',
+        'PASSWORD': '12345679',
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -109,7 +105,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
@@ -117,36 +112,44 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-MEDIA_ROOT=os.path.join(BASE_DIR,'static/media')
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 587
-#发送邮件的邮箱
+# 发送邮件的邮箱
 EMAIL_HOST_USER = '302713200@qq.com'
-#在邮箱中设置的客户端授权密码
+# 在邮箱中设置的客户端授权密码
 EMAIL_HOST_PASSWORD = 'xwhafctznkpqcaca'
-#收件人看到的发件人
+# 收件人看到的发件人
 EMAIL_FROM = 'lipanfeng<302713200@qq.com>'
 
-#富文本编辑器配置
-TINYMCE_DEFAULT_CONFIG={
-    'theme':'advanced',
-    'width':600,
-    'height':400,
+# 富文本编辑器配置
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
 }
 
-#全文搜索配置
+# 全文搜索配置
 HAYSTACK_CONNECTIONS = {
     'default': {
-        #使用whoosh引擎
+        # 使用whoosh引擎
         'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
-        #索引文件路径
+        # 索引文件路径
         'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
     }
 }
-#当添加、修改、删除数据时，自动生成索引
+# 当添加、修改、删除数据时，自动生成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# sessions - redis 缓存
+
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_REDIS_HOST = '192.168.64.254'
+SESSION_REDIS_PORT = 6379
+SESSION_REDIS_DB = 2
+SESSION_REDIS_PASSWORD = ''
+SESSION_REDIS_PREFIX = 'session'
