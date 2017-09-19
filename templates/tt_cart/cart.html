@@ -66,13 +66,14 @@
                     $(this).val(kucun)
                 }
                 count = $(this).val();
+                total_all(3);
                 $.get('/cart/change_count/', {
                         'change_id': $(this).parents('.cart_list_td').prop('id'),
                         'count': count
                     },
                     function (dat) {
                         if (dat.isok == 1) {
-                            total_all(1);
+                            //total_all(3);
                         }
 
                     })
@@ -109,8 +110,12 @@
                 $('.settlements b').text(0);
             } else if (num == 3) {
 
-                for (var i = 0; i < $(':checkbox:not(#check_all)').length; i++) {
-                    var $first = parseInt($('#check').parents('ul').find('.num_show').val());
+                    $('.cart_list_td').each(function (i,n) { //n ul
+                         var  $num_count= $(n).find('.num_show').val();
+                         console.log($num_count);
+
+                    })
+
                 }
 
             }

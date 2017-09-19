@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 def user_login(func):
     def call_func(request, *args, **kwargs):
         # 判断用户是否登录
-        if request.session.has_key('uid'):
+        if 'uid' in request.session:
             # 如果登录，则继续执行视图
             return func(request, *args, **kwargs)
         else:
