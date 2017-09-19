@@ -4,61 +4,60 @@ from django.db import transaction
 from .models import *
 from datetime import datetime
 from tt_user.models import *
-# Create your views here.
-def place_order(request):
-    useraddr = UserAddressInfo.objects.filter(user=33)
-    dict=request.GET
-    cid=dict.getlist('cid')#[1,3]
-    cart_list=CartInfo.objects.filter(id__in=cid)
+from tt_user.user_decorators import user_login
 
-    context={'clist':cart_list,'useraddr':useraddr, 'sub_page_name': '提交订单'}
+# Create your views here.
+@user_login
+def place_order(request):
+    u_id = request.session['uid']
+    u_addr= UserAddressInfo.objects.filter(user_id=u_id)
+    # addr = u_addr.uaddress
+    # tel = u_addr.uphone
+    # name = u_addr.uname
+    dict =request.GET
+    cid  =dict.getlist('cid')#[1,3]
+    cart_list=CartInfo.objects.filter(goods__in=cid)
+    context={'clist':cart_list,'list':u_addr}
     return render(request,'tt_order/place_order.html',context)
 
 @transaction.atomic
+@user_login
 def do_order(request):
-    cid=request.POST.getlist('cid')
-
-    #开启事务
-    sid=transaction.savepoint()
-    #创建订单主表
-    order=OrderInfo()
-    order.oid='%s%s'%(datetime.now().strftime('%Y%m%d%H%M%S'),'1')
-    order.user_id=1
+    u_id = request.session['uid']
+    cid = request.POST.getlist('cid')
+    addr = request.POST.get('addr')
+    sid = transaction.savepoint()
+    cart_list = CartInfo.objects.filter(goods__in= cid)
+    order = OrderInfo()
+    order.user_id = u_id
+    order.oid = '%s%s'%(datetime.now().strftime('%Y%m%d%H%M%S'),u_id)
+    total = 0
     order.ototal=0
-    order.oaddress=''
+    order.oaddress = addr
     order.save()
-    #查询选中的购物车信息，逐个遍历
-    cart_list=CartInfo.objects.filter(user__in=cid)
-    total=0
-    isOk=True
+    isOK=True
     for cart in cart_list:
-        #判断商品库存是否满足当前购买数量
-        if cart.count<=cart.goods.gkucun:
-            #库存量足够，可以购买
-            detail=OrderDetailInfo()
-            detail.order=order
-            detail.goods=cart.goods
-            detail.price=cart.goods.gprice
-            detail.count=cart.count
+        if cart.count < cart.goods.gkucun:
+            detail = OrderDetailInfo()
+            detail.goods = cart.goods
+            detail.order = order
+            detail.price = cart.goods.gprice
+            detail.count = cart.count
             detail.save()
-            #计算总价
-            total+=detail.count*detail.price
-            #更改库存数量
-            cart.goods.gkucun-=cart.count
+            total += detail.count * detail.price
+            cart.goods.gkucun -= cart.count
             cart.goods.save()
-            #删除购物车数据
             cart.delete()
         else:
-            isOk=False
+            isOK=False
             break
-    if isOk:
-        #保存总价
+    if isOK:
         order.ototal=total
         order.save()
-        #订单成功，转到用户中心
         transaction.savepoint_commit(sid)
-        return redirect('/user/order/')
+        return redirect('/user/user_center_order/')
     else:
-        #订单失败，是转到购物车，再次修改数量
         transaction.savepoint_rollback(sid)
         return redirect('/cart/')
+
+

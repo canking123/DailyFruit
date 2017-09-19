@@ -1,6 +1,38 @@
 {% extends 'base.html' %}
 {%block head%}
-	<title>天天生鲜-支付订单</title>
+    <title>天天生鲜-支付订单</title>
+    <script>
+        $(function () {
+          ;
+
+            function update_total() {
+                var total = 0;
+
+                $.each($('.goods_list_td .col07'),function () {
+                    var subtotal = parseFloat($(this).siblings('.col05').find('span').html()) * parseInt($(this).siblings('.col06').html());
+                    total = total + subtotal;
+                    $(this).html(subtotal.toFixed(2));
+                });
+{#                $('.total_goods_count').html('共<em>{{ cart_li.count }}</em>件商品，总金额<b>' + total.toFixed(2) + '元</b>');#}
+{#                var pay_num = total + parseFloat($('.transit').find('span').html());#}
+{#                $('.total_pay').html('实付款：<b>' + pay_num.toFixed(2) + '元</b>');#}
+                }
+            update_total();
+
+            var sum = 0;
+          $('.col07').each(function(){
+		    sum +=parseFloat($(this).html());
+          });
+          $('.sum1').html(sum+'元');
+          $('.sum2').html(sum+10+'元')
+
+
+
+         })
+    </script>
+
+
+
 {%endblock head%}
 {% block body %}
 <form method="post" action="/order/do_order/">
@@ -9,11 +41,11 @@
 	<div class="common_list_con clearfix">
 		<dl>
 			<dt>寄送到：</dt>
-            {%for addrinfo in useraddr %}
-			<dd><input type="radio" name="" checked="" value="">{{ addrinfo.uaddress }} （{{ addrinfo.uname }} 收） {{ addrinfo.uphone }}</dd>
+            {%for addrinfo in list %}
+			<dd><input type="radio" name="addr" checked="" value="">{{ addrinfo.uaddress }}（{{ addrinfo.uname }} 收） {{ addrinfo.uphone }}</dd>
             {% endfor %}
 		</dl>
-		<a href="user_center_site.html" class="edit_site">编辑收货地址</a>
+		<a href="/user/user_center_site" class="edit_site">编辑收货地址</a>
 
 	</div>
 	
@@ -49,9 +81,9 @@
 			<li class="col02"><img src="/static/media/{{ cart.goods.gpic }}"></li>
 			<li class="col03">{{ cart.goods.gtitle|truncatechars:'15' }}</li>
 			<li class="col04">500g</li>
-			<li class="col05">25.80元</li>
+            <li class="col05"><span>{{ cart.goods.gprice }}</span>元</li>
 			<li class="col06">{{ cart.count }}</li>
-			<li class="col07">25.80元</li>	
+			<li class="col07">元</li>
 		</ul>
 		{% endfor %}
 	</div>
@@ -60,9 +92,9 @@
 
 	<div class="common_list_con clearfix">
 		<div class="settle_con">
-			<div class="total_goods_count">共<em>2</em>件商品，总金额<b>42.60元</b></div>
+			<div class="total_goods_count">共<em>{{ num }}</em>件商品，总金额<b class="sum1"></b></div>
 			<div class="transit">运费：<b>10元</b></div>
-			<div class="total_pay">实付款：<b>52.60元</b></div>
+			<div class="total_pay">实付款：<b class="sum2"></b></div>
 		</div>
 	</div>
 
@@ -78,7 +110,7 @@
 		
 		<div class="mask"></div>
 	</div>
-	<script type="text/javascript" src="/static/js/jquery-1.12.2.js"></script>
+
 	<script type="text/javascript">
 		$('#order_btn').click(function() {
 			localStorage.setItem('order_finish',2);
@@ -94,4 +126,10 @@
 			});
 		});
 	</script>
+       <script>
+        $(function () {
+
+
+        })
+    </script>
 {% endblock body %}
