@@ -15,7 +15,7 @@ def cart(request):
     context = {'title': '购物车', 'cart_list': cart_list, 'sub_page_name': '购物车'}
     return render(request, 'tt_cart/cart.html', context)
 
-
+@user_login
 def add(request):
     dict = request.GET
     gid = int(dict.get('gid', ''))

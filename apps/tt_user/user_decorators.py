@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import redirect
+from django.http import HttpRequest,JsonResponse
 
 
 def user_login(func):
@@ -10,7 +11,10 @@ def user_login(func):
             return func(request, *args, **kwargs)
         else:
             # 如果没有登录，则转到登录页
-            return redirect('/user/login/')
+            if request.is_ajax():
+                return JsonResponse({'ok': 1})
+            else:
+                return redirect('/user/login/')
 
     return call_func
 
