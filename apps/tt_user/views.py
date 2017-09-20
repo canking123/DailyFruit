@@ -7,6 +7,8 @@ from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from tt_order.models import OrderInfo
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -115,11 +117,20 @@ def user_center_info(request):
 
 
 @user_decorators.user_login
-def user_center_order(request):
+def user_center_order(request, index):
     user_id = request.session.get('uid')
     user = UserInfo.objects.filter(id=int(user_id))
     user_name = user[0].uname
-    context = {'user_name1': user_name, 'sub_page_name': '我的订单'}
+
+    orderlist = OrderInfo.objects.filter(user=user_id)
+    p = Paginator(orderlist, 3)
+    if index == '':
+        index = '1'
+    index = int(index)
+    order_list = p.page(index)
+    page_list = p.page_range
+    context = {'user_name1': user_name, 'sub_page_name': '我的订单',
+               'orderlist': order_list, 'index': index, 'pagelist': page_list}
     return render(request, 'tt_user/user_center_order.html', context)
 
 
